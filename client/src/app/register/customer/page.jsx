@@ -4,5 +4,4 @@ const Customer = () => {
   return <div>Customer</div>;
 };
 
-export default Cus;
-stomer;
+export default Customer;
