@@ -59,6 +59,6 @@ const farmerSchema = new mongoose.Schema({
   }
 });
 
-const Farmer = client.model("Farmer", accountSchema);
+const Farmer = client.model("Farmer", farmerSchema);
 
 module.exports = Farmer;
