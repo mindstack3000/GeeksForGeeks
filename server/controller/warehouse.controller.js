@@ -14,6 +14,33 @@ const { encrypt, decrypt } = require("../encryption");
 router.post("/register", async (req, res) => {
   try {
     const {
+      _name,
+      username,
+      password,
+      _location,
+      facility,
+      _certifications,
+      _security,
+      _phoneNo,
+      email,
+      servicesOffered,
+      waitingList,
+      price,
+      typeOfCrop
+    } = req.body;
+
+    // Check if the user already exists
+    const user = await Warehouse.findOne({ username });
+    if (user) return res.status(400).json({ msg: "Username already exists" });
+
+    const name = encrypt(_name);
+    const phoneNo = encrypt(_phoneNo);
+    const location = encrypt(_location);
+    const certifications = encrypt(_certifications);
+    const security = encrypt(_security);
+
+    // Create a new user
+    const newUser = new Warehouse({
       name,
       username,
       password,
@@ -23,40 +50,10 @@ router.post("/register", async (req, res) => {
       security,
       phoneNo,
       email,
-      operatingHours,
       servicesOffered,
-      waitngList,
+      waitingList,
       price,
       typeOfCrop
-    } = req.body;
-
-    // Check if the user already exists
-    const user = await Warehouse.findOne({ username });
-    if (user) return res.status(400).json({ msg: "Username already exists" });
-
-    encryptedName = encrypt(name);
-    encryptedPhoneNo = encrypt(phoneNo);
-    encryptedLocation = encrypt(location);
-    encryptedCertifications = encrypt(certifications);
-    encryptedSecurity = encrypt(security);
-    encryptedTypeOfCrop = encrypt(typeOfCrop);
-
-    // Create a new user
-    const newUser = new Warehouse({
-      encryptedName,
-      username,
-      password,
-      encryptedLocation,
-      facility,
-      encryptedCertifications,
-      encryptedSecurity,
-      encryptedPhoneNo,
-      email,
-      operatingHours,
-      servicesOffered,
-      waitngList,
-      price,
-      encryptedTypeOfCrop
     });
 
     // Hash the password
@@ -134,17 +131,16 @@ router.post("/login", async (req, res) => {
 router.put("/update", auth, async (req, res) => {
   try {
     const {
-      name,
+      _name,
       username,
-      location,
+      _location,
       facility,
-      certifications,
-      security,
-      phoneNo,
+      _certifications,
+      _security,
+      _phoneNo,
       email,
-      operatingHours,
       servicesOffered,
-      waitngList,
+      waitingList,
       price,
       typeOfCrop
     } = req.body;
@@ -152,29 +148,27 @@ router.put("/update", auth, async (req, res) => {
     // Check if the user already exists
     const existingUser = await Warehouse.findById(req.userId);
 
-    encryptedName = encrypt(name);
-    encryptedPhoneNo = encrypt(phoneNo);
-    encryptedLocation = encrypt(location);
-    encryptedCertifications = encrypt(certifications);
-    encryptedSecurity = encrypt(security);
-    encryptedTypeOfCrop = encrypt(typeOfCrop);
+    const name = encrypt(_name);
+    const phoneNo = encrypt(_phoneNo);
+    const location = encrypt(_location);
+    const certifications = encrypt(_certifications);
+    const security = encrypt(_security);
 
     // Update the user fields
     await Warehouse.updateOne({ _id: req.userId },  {
-      encryptedName,
+      name,
       username,
       password,
-      encryptedLocation,
+      location,
       facility,
-      encryptedCertifications,
-      encryptedSecurity,
-      encryptedPhoneNo,
+      certifications,
+      security,
+      phoneNo,
       email,
-      operatingHours,
       servicesOffered,
-      waitngList,
+      waitingList,
       price,
-      encryptedTypeOfCrop
+      typeOfCrop
     });
 
     // Sign the token

@@ -14,6 +14,29 @@ const { enc } = require("crypto-js");
 router.post("/register", async (req, res) => {
   try {
     const {
+      _adharNo,
+      _fullName,
+      _phoneNo,
+      email,
+      _address,
+      username,
+      password,
+      _landSize,
+      typeOfCrop,
+    } = req.body;
+
+    // Check if the user already exists
+    const user = await Farmer.findOne({ username });
+    if (user) return res.status(400).json({ msg: "Username already exists" });
+
+    const adharNo = encrypt(_adharNo);
+    const fullName = encrypt(_fullName);
+    const phoneNo = encrypt(_phoneNo);
+    const address = encrypt(_address);
+    const landSize = encrypt(_landSize);
+
+    // Create a new user
+    const newUser = new Farmer({
       adharNo,
       fullName,
       phoneNo,
@@ -23,30 +46,6 @@ router.post("/register", async (req, res) => {
       password,
       landSize,
       typeOfCrop,
-    } = req.body;
-
-    // Check if the user already exists
-    const user = await Farmer.findOne({ username });
-    if (user) return res.status(400).json({ msg: "Username already exists" });
-
-    encryptedAdharNo = encrypt(adharNo);
-    encryptedFullName = encrypt(fullName);
-    encryptedPhoneNo = encrypt(phoneNo);
-    encryptedAddress = encrypt(address);
-    encryptedLandSize = encrypt(landSize);
-    encryptedTypeOfCrop = encrypt(typeOfCrop);
-
-    // Create a new user
-    const newUser = new Farmer({
-      encryptedAdharNo,
-      encryptedFullName,
-      encryptedPhoneNo,
-      email,
-      encryptedAddress,
-      username,
-      password,
-      encryptedLandSize,
-      encryptedTypeOfCrop,
     });
 
     // Hash the password
@@ -72,7 +71,7 @@ router.post("/register", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -134,23 +133,22 @@ router.put("/update", auth, async (req, res) => {
     // Check if the user already exists
     const existingUser = await Farmer.findById(req.userId);
 
-    encryptedAdharNo = encrypt(adharNo);
-    encryptedFullName = encrypt(fullName);
-    encryptedPhoneNo = encrypt(phoneNo);
-    encryptedAddress = encrypt(address);
-    encryptedLandSize = encrypt(landSize);
-    encryptedTypeOfCrop = encrypt(typeOfCrop);
+    adharNo = encrypt(adharNo);
+    fullName = encrypt(fullName);
+    phoneNo = encrypt(phoneNo);
+    address = encrypt(address);
+    landSize = encrypt(landSize);
 
     // Update the user fields
     await Farmer.updateOne({ _id: req.userId }, {
-      encryptedAdharNo,
-      encryptedFullName,
-      encryptedPhoneNo,
+      adharNo,
+      fullName,
+      phoneNo,
       email,
-      encryptedAddress,
+      address,
       username,
-      encryptedLandSize,
-      encryptedTypeOfCrop,
+      landSize,
+      typeOfCrop,
     });
 
     // Sign the token

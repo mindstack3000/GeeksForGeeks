@@ -47,34 +47,20 @@ const warehouseSchema = new mongoose.Schema({
     required: true,
   },
   phoneNo: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
     type: String,
     required: true,
   },
-  operatingHours: {
-    open: {
-      type: Number,
-      required: true,
-    },
-    close: {
-      type: Number,
-      required: true,
-    },
-  },
   servicesOffered: {
     type: String,
     required: true,
   },
-  waitingList : {
-    type : [String],
-    require : false,
-  },
   price : {
     type : Number,
-    require : true
+    required : true
   },
   otp: {
     type: Number,
@@ -83,6 +69,10 @@ const warehouseSchema = new mongoose.Schema({
   typeOfCrop: {
     type: [String],
     required: true,
+  },
+  duration: {
+    type: Number,
+    required: false,
   },
 });
 

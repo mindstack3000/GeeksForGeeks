@@ -5,6 +5,7 @@ import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 
 import RegisterSelector from "@/components/register_selector";
+import { data } from "autoprefixer";
 
 const cropTypes = [
   "Wheat",
@@ -67,14 +68,14 @@ function FarmerRegister() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adharNo: form.adharNo,
-          fullName: form.fullName,
-          phoneNo: form.phoneNo,
+          _adharNo: form.adharNo,
+          _fullName: form.fullName,
+          _phoneNo: form.phoneNo,
           email: form.email,
-          address: form.address,
+          _address: form.address,
           username: form.username,
           password: form.password,
-          landSize: form.landSize,
+          _landSize: form.landSize,
           typeOfCrop: form.typeOfCrop,
         }),
       });
@@ -89,6 +90,8 @@ function FarmerRegister() {
       console.log(err);
     }
   };
+
+  // console.log(data);
 
   return (
     <>

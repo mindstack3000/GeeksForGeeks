@@ -11,7 +11,7 @@ const farmerSchema = new mongoose.Schema({
     required: true,
   },
   phoneNo: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
