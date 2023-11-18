@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
+import { useContext } from "react";
+import { UserContext } from "../../../context/session";
 import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 import RegisterSelector from "@/components/register_selector";
@@ -51,7 +52,81 @@ function WareHouseRegister() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("form", form);
+    try {
+      e.preventDefault();
+
+      if (
+        form.location == "" ||
+        form.email == "" ||
+        form.name == "" ||
+        form.password == "" ||
+        form.phoneNo == "" ||
+        form.username == "" ||
+        form.capacity == "" ||
+        form.certifications == "" ||
+        form.security == "" ||
+        form.typeOfCrop.length == 0
+      ) {
+        console.log("form", form);
+        alert("Please fill all the fields");
+        return;
+      }
+
+      const response = await fetch("http://localhost:5000/warehouse/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          username: form.username,
+          password: form.password,
+          location: form.location,
+          facility: {
+            temperature: {
+              low: form.temp_low,
+              high: form.temp_high,
+            },
+            capacity: form.capacity,
+            tempType: form.tempType,
+          },
+          certifications: form.certifications,
+          security: form.security,
+          phoneNo: form.phoneNo,
+          email: form.email,
+          servicesOffered: form.servicesOffered,
+          price: form.price,
+          typeOfCrop: form.typeOfCrop,
+        }),
+      });
+      const data = await response.json();
+      if (data.token) {
+        alert("Registered Successfully");
+        setUser({ token : data.token, type : "warehouse"});
+        setForm({
+          name: "",
+          username: "",
+          password: "",
+          location: "",
+          temp_low: "",
+          temp_high: "",
+          capacity: "",
+          tempType: "",
+          certifications: "",
+          security: "",
+          phoneNo: "",
+          email: "",
+          servicesOffered: "false",
+          price: "",
+          typeOfCrop: [],
+        });
+      } else {
+        alert("Some error occured");
+        
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   useEffect(() => {

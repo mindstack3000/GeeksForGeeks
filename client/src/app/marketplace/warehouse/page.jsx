@@ -9,11 +9,13 @@ import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
   const [data, setData] = useState([]);
+  const  user  = JSON.parse(localStorage.getItem("user")) || {};
   useEffect(() => {
     fetch("http://localhost:5000/warehouse/getData",{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + user?.token,
       },
     })
       .then((res) => {

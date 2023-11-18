@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 function Navbar() {
+  const handleChange = () => {
+    localStorage.removeItem("user");
+  };
+
+
   return (
     <header className="flex w-full justify-between bg-primary px-8 py-5">
       <div>
@@ -12,7 +17,7 @@ function Navbar() {
         <Button asChild variant="link" className="text-white">
           <Link href="/login">Dashboard</Link>
         </Button>
-        <Button asChild variant="link" className="text-white">
+        <Button asChild variant="link" className="text-white" onChange={handleChange}>
           <Link href="/login">Logout</Link>
         </Button>
       </nav>

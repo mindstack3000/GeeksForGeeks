@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-
+import { useRouter} from "next/navigation";
 import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 
@@ -17,11 +17,12 @@ const cropTypes = [
   "Tomatoes",
   "Fruits",
   "Vegetables",
-  "Other",
 ];
 
 function FarmerRegister() {
+  // const { setUser } = useContext(UserContext);
   const [selectCropTypes, setSelectCropTypes] = useState([]);
+  const router = useRouter();
   const [form, setForm] = useState({
     adharNo: "",
     fullName: "",
@@ -39,9 +40,8 @@ function FarmerRegister() {
   }, [selectCropTypes]);
 
   const handleChange = (e, name) => {
-    const { value } = e.target.value;
+    const { value } = e.target;
     setForm({ ...form, [name]: value });
-    console.log(form);
   };
 
   const handleSubmit = async (e) => {
@@ -80,8 +80,20 @@ function FarmerRegister() {
       });
       const data = await response.json();
       if (data.token) {
-        alert("Registered Successfully");
-        window.location.href = "/login";
+        const user  = { token : data.token, type : "farmer" }
+        localStorage.setItem("user", JSON.stringify(user));
+        setForm({
+          adharNo: "",
+          fullName: "",
+          phoneNo: "",
+          email: "",
+          address: "",
+          username: "",
+          password: "",
+          landSize: "",
+          typeOfCrop: [],
+        });
+        router.push("/marketplace/warehouse");
       } else {
         alert("Some error occured");
       }
@@ -107,39 +119,47 @@ function FarmerRegister() {
           <InputWithLabel
             label="Aadhar Card No"
             type="number"
+            value={form.adharNo}
             onChange={(e) => handleChange(e, "adharNo")}
           />
           <InputWithLabel
             label="Fullname"
+            value={form.fullName}
             onChange={(e) => handleChange(e, "fullName")}
           />
           <InputWithLabel
             label="Username"
+            value={form.username}
             onChange={(e) => handleChange(e, "username")}
           />
           <InputWithLabel
             label="Password"
             type="password"
+            value={form.password}
             onChange={(e) => handleChange(e, "password")}
           />
           <InputWithLabel
             label="Phone No."
             type="tel"
+            value={form.phoneNo}
             onChange={(e) => handleChange(e, "phoneNo")}
           />
           <InputWithLabel
             label="Email"
             type="email"
+            value={form.email}
             onChange={(e) => handleChange(e, "email")}
           />
           <InputWithLabel
             label="Address"
             type="text"
+            value={form.address}
             onChange={(e) => handleChange(e, "address")}
           />
           <InputWithLabel
             label="Land Size"
             type="number"
+            value={form.landSize}
             onChange={(e) => handleChange(e, "landSize")}
           />
 
