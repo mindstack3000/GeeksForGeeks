@@ -109,7 +109,7 @@ router.post("/login", async (req, res) => {
  * @route PUT /farmer/update
  */
 
-router.put("/update/:id", auth, async (req, res) => {
+router.put("/update", auth, async (req, res) => {
   try {
     const {
       adharNo,
@@ -123,11 +123,10 @@ router.put("/update/:id", auth, async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    const existingUser = await Farmer.findById(req.params.id);
-    if (!existingUser) return res.status(400).json({ msg: "User does not exist" });
+    const existingUser = await Farmer.findById(req.userId);
 
     // Update the user fields
-    await Farmer.updateOne({ _id: req.params.id }, {
+    await Farmer.updateOne({ _id: req.userId }, {
       adharNo,
       fullName,
       phoneNo,
