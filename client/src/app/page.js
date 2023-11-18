@@ -23,7 +23,7 @@ export default function Home() {
   const AppInfo = [
     {
       title: "Farmer",
-      image: "/login.jpg",
+      image: "/appInfo0.jpg",
       description: `Farmer Registration and Profile: Farmers can sign up on the platform and create profiles, sharing details about their farms.
         Warehouse and Cold Storage Information: Farmers can access
         information about available warehouses and cold storage
@@ -48,7 +48,7 @@ export default function Home() {
     },
     {
       title: "Warehouse Owner",
-      image: "/login.jpg",
+      image: "/appInfo2.jpg",
       description: `    Profile and Visibility:
         
         Warehouses can create profiles on the platform, showcasing their services, location, and available storage capacity.
@@ -150,7 +150,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-
+{/* App Info */}
       {AppInfo.map((item, i) => (
         <div
           key={i}
