@@ -108,4 +108,35 @@ router.put("/warehouse-occupied-space/", auth, async (req, res) => {
   }
 });
 
+/*
+ ! Farmer Dashboard
+ * all request info 
+ */
+router.get("/farmer-request/:id", auth, async (req, res) => {
+  try {
+    const farmerId = req.params.id;
+    const allTransaction = await Transaction.find({ farmerId: farmerId });
+    let warehouseInfo = [];
+    for (let i = 0; i < allTransaction.length; i++) {
+      let warehouse = await Warehouse.findById(allTransaction[i].warehouseId);
+      warehouseInfo.push({
+        warehouseOwner: warehouse.name,
+        address : warehouse.location,
+        crop: allTransaction[i].crop,
+        quantity: allTransaction[i].quantity,
+        duration: allTransaction[i].duration,
+        phoneNo: warehouse.phoneNo,
+        email: warehouse.email,
+      });
+    }
+    if (warehouseInfo) {
+      res.status(200).json({ warehouseInfo });
+    } else {
+      res.status(400).json({ message: "no request found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
