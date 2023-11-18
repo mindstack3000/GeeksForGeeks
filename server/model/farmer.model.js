@@ -49,8 +49,7 @@ const farmerSchema = new mongoose.Schema({
     required: true,
   },
   typeOfCrop: {
-    type: String,
-    enum: cropTypes,
+    type: [String],
     required: true,
   },
   otp : {

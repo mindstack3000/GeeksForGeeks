@@ -56,12 +56,11 @@ router.post("/register", async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    // Send the token in a HTTP-only cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+    if(token){
+      res.status(201).json({ message: "Farmer register successfully", token });
+    }else{
+      res.status(400).json({ message: "Farmer register failed" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server Error" });
@@ -94,13 +93,12 @@ router.post("/login", async (req, res) => {
       { id: user._id, username: user.username },
       process.env.JWT_SECRET
     );
-
-    // Send the token in a HTTP-only cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+      if(token){
+        res.status(201).json({ message: "Farmer login successfully", token });
+      }
+      else{
+        res.status(400).json({ message: "Farmer login failed" });
+      }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server Error" });
@@ -157,13 +155,11 @@ router.put("/update/:id", auth, async (req, res) => {
       { id: newUser._id, username: newUser.username },
       process.env.JWT_SECRET
     );
-
-    // Send the token in a HTTP-only cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .send();
+      if(token){
+        res.status(201).json({ message: "Farmer update successfully", token });
+      }else{
+        res.status(400).json({ message: "Farmer update failed" });
+      }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server Error" });

@@ -1,14 +1,37 @@
-# Farmer Registeration
+# Farmer
 
-POST http://localhost:5000/farmer/reg HTTP/1.1
+# Registeration
+
+POST http://localhost:5000/farmer/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "Aryan_demp",
-    "password": "demo_password",
-    "email": "aryanbhisikar02@gmail.com"
+    "adharNo" : "123456789012",
+    "fullName": "Rajesh",
+    "phoneNo": "1234567890",
+    "email": "temp@gmail.com",
+    "address": "Bangalore",
+    "username": "Rajesh",
+    "password": "Bangalore",
+    "landSize": "10",
+    "typeOfCrop":["Rice","Wheat","Maize"]
+}
+
+###
+
+#login
+
+POST http://localhost:5000/farmer/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Rajesh",
+    "password": "Bangalore"
 }
 
 
 ###
+
+# update
+
 
