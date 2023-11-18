@@ -119,7 +119,6 @@ router.put("/update:id", async (req, res) => {
     const {
       name,
       username,
-      password,
       location,
       facility,
       certifications,
@@ -131,33 +130,25 @@ router.put("/update:id", async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    const user = await Warehouse.findOne({ _id: req.params.id });
+    const user = await Warehouse.findById({ _id: req.params.id });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
 
     // Create a new user
-    const newUser = new Warehouse({
-      name,
-      username,
-      password,
-      location,
-      facility,
-      certifications,
-      security,
-      phoneNo,
-      email,
-      operatingHours,
-      servicesOffered,
-    });
-
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Replace the password with the hashed password
-    newUser.password = hashedPassword;
-
-    // Save the user
-    await Warehouse.updateOne({ _id: req.params.id }, newUser);
+    await Warehouse.updateOne(
+      { _id: req.params.id },
+      {
+        name,
+        username,
+        location,
+        facility,
+        certifications,
+        security,
+        phoneNo,
+        email,
+        operatingHours,
+        servicesOffered,
+      }
+    );
 
     // Sign the token
     const token = jwt.sign(
