@@ -1,0 +1,14 @@
+# Farmer Registeration
+
+POST http://localhost:5000/farmer/reg HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Aryan_demp",
+    "password": "demo_password",
+    "email": "aryanbhisikar02@gmail.com"
+}
+
+
+###
+
