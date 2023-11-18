@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
+import InfoSection from '@/components/InfoSection';
 
 export default function Home() {
   const Features = [
@@ -153,50 +154,27 @@ export default function Home() {
           ))}
         </div>
       </div>
-      {/* App Information */}
-      {/* <div className="w-full p-4 text-black md:p-8 lg:p-12 flex">
-        {AppInfo.map((item,i) => (
-          <div key={i} className={`flex ${i%2!=0 ? ' ': ''} flex-col-reverse md:flex-row w-full h-auto md:h-96 my-5`}>
-            <div className="w-full md:w-1/2 mb-4 md:mb-0">
-              <h3 className="m-2 scroll-m-20 text-xl md:text-4xl lg:text-5xl p-2 font-extrabold tracking-tight">
-                {item.title}
-              </h3>
-              <p className="p-2 text-justify text-sm md:text-base lg:text-lg">
-                {item.description}
-
+         
+      {AppInfo.map((item,i) => (
+        <div key={i} className={`w-full p-4 text-black md:p-8 lg:p-12 flex ${i%2!=0 ? ' flex-row-reverse': 'flex-row'}`}>
+          <div className="w-full md:w-1/2">
+            <img
+              className="w-full pt-20 h-48 md:h-96 object-fill p-0 m-0"
+              src={`/${item.image}.jpg`}
+              alt="Farmer"
+            />
+          </div>
+          <div className="w-full md:w-1/2 mb-4 md:mb-0">
+            <h3 className="m-2 scroll-m-20 text-xl md:text-4xl lg:text-5xl p-2 font-extrabold tracking-tight">
+              {item.title}
+            </h3>
+            <p className="p-2 text-justify text-sm md:text-base lg:text-lg">
+              {item.description}
               </p>
-            </div>
-            <div className="w-full md:w-1/2">
-              <img
-                className="w-full h-48 md:h-96 object-cover p-0 m-0"
-                src={`/${item.image}.jpg`}
-                alt="Farmer"
-              />
-            </div>
           </div>
-        ))}
-      </div> */}
-      {/* {AppInfo.map((item,i) => (
-        <div key={i}
-        className={`flex ${i % 2 !== 0 ? 'flex-row' : 'flow-row-reverse'} `}
-        >
-          <div className="flex flex-col">
-            
-          <p>{item.title}</p>
-          <p>{item.description}</p>
-          </div>
-          <div><img
-          src={`/${item.image}.jpg`}
-          alt="Farmer"
-          width={500}
-          height={500}
-          />
-          </div>
-
         </div>
-      ))} */}
-      
-      {/* Footer  */}
+      ))}
+   
       <Footer />
     </main>
   );
