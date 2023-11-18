@@ -53,8 +53,12 @@ const farmerSchema = new mongoose.Schema({
     enum: cropTypes,
     required: true,
   },
+  otp : {
+    type : String,
+    require : false
+  }
 });
 
 const Farmer = client.model("Farmer", accountSchema);
 
-module.exports = Account;
+module.exports = Farmer;
