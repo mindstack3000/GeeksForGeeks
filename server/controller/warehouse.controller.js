@@ -24,7 +24,10 @@ router.post("/register", async (req, res) => {
       email,
       servicesOffered,
       price,
+      typeOfCrop,
     } = req.body;
+
+
 
     // Check if the user already exists
     const user = await Warehouse.findOne({ username });
@@ -43,6 +46,7 @@ router.post("/register", async (req, res) => {
       email,
       servicesOffered,
       price,
+      typeOfCrop,
     });
 
     // Hash the password
