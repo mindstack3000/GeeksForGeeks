@@ -7,8 +7,13 @@ import RegisterSelector from "@/components/register_selector";
 
 const typesOfStorage = ["Hot Storage", "Cold Storage"];
 
-function FarmerLogin() {
+function WareHouseRegister() {
   const [selectTypeOfStorage, setSelectTypeOfStorage] = useState("");
+  // const [form , setForm] = useState({
+  //   "name" : "",
+  //   "username" : "",
+  //   "location" : "",
+
 
   return (
     <>
@@ -68,4 +73,4 @@ function FarmerLogin() {
   );
 }
 
-export default FarmerLogin;
+export default WareHouseRegister;
