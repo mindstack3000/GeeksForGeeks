@@ -76,6 +76,10 @@ const warehouseSchema = new mongoose.Schema({
     enum: hours,
     required: true,
   },
+  servicesOffered: {
+    type: [String],
+    required: true,
+  },
   otp: {
     type: Number,
     required: false,
