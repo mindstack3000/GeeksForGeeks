@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/ui/header";
 import { Footer } from "../components/ui/footer";
+import Image from "next/image";
 // import InfoSection from "../components/ui/infoSection";
 
 export default function Home() {
@@ -24,7 +25,7 @@ export default function Home() {
   const AppInfo = [
     {
       title: "Farmer",
-      image: "login",
+      image: "/login.jpg",
       description: `Farmer Registration and Profile: Farmers can sign up on the platform and create profiles, sharing details about their farms.
         Warehouse and Cold Storage Information: Farmers can access
         information about available warehouses and cold storage
@@ -49,7 +50,7 @@ export default function Home() {
     },
     {
       title: "Warehouse Owner",
-      image: "login",
+      image: "/login.jpg",
       description: `    Profile and Visibility:
         
         Warehouses can create profiles on the platform, showcasing their services, location, and available storage capacity.
@@ -71,7 +72,7 @@ export default function Home() {
     },
     {
       title: "Customer",
-      image: "login",
+      image: "/login.jpg",
       description: `   Explore and Purchase:
         
         Customers can explore a diverse range of agricultural produce available on the platform and make direct purchases from farmers.
@@ -133,12 +134,12 @@ export default function Home() {
           {Features.map((item, i) => (
             <div
               key={i}
-              className="card m-2 flex h-80 flex-col items-center justify-center rounded-xl border border-white p-2 shadow-2xl md:m-4 md:h-96 md:p-3 xl:w-1/4"
+              className="card m-2 flex h-80 flex-col items-center justify-center gap-5 rounded-xl border border-input p-2 md:m-4 md:h-96 md:p-3 xl:w-1/4"
             >
-              <h3 className="mb-2 scroll-m-20 text-base font-semibold tracking-tight md:text-lg xl:text-xl">
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                 {item.title}
               </h3>
-              <p className="scroll-m-20 overflow-clip text-ellipsis p-2 text-sm font-medium tracking-tight md:text-base xl:text-lg">
+              <p className="scroll-m-20 overflow-clip text-ellipsis p-2 text-center text-sm font-normal tracking-tight md:text-base xl:text-lg">
                 {item.description}
               </p>
               <a
@@ -155,17 +156,20 @@ export default function Home() {
       {AppInfo.map((item, i) => (
         <div
           key={i}
-          className={`flex w-full p-4 text-black md:p-8 lg:p-12 ${
-            i % 2 != 0 ? " flex-row-reverse" : "flex-row"
+          className={`flex w-full items-center justify-center gap-5 p-4 text-black md:p-8 lg:p-12 ${
+            i % 2 != 0
+              ? " flex-col md:flex-row-reverse"
+              : "flex-col md:flex-row"
           }`}
         >
-          <div className="w-full md:w-1/2">
+          <div className=" h-[500px] w-full md:w-1/2">
             <img
-              className="m-0 h-48 w-full object-fill p-0 pt-20 md:h-96"
-              src={`/${item.image}.jpg`}
-              alt="Farmer"
+              src={item.image}
+              alt={item.title}
+              className="h-full w-full rounded-xl object-cover"
             />
           </div>
+
           <div className="mb-4 w-full md:mb-0 md:w-1/2">
             <h3 className="m-2 scroll-m-20 p-2 text-xl font-extrabold tracking-tight md:text-4xl lg:text-5xl">
               {item.title}
