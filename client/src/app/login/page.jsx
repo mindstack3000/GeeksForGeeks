@@ -1,9 +1,14 @@
-import React from "react";
-import InputWithLabel from "../../components/input_with_label";
+"use client";
+
+import React, { useState } from "react";
+import InputWithLabel from "@/components/input_with_label";
 import Image from "next/image";
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
+import LoginSelector from "@/components/login_selector";
 
 export default function Login() {
+  const [loginType, setLoginType] = useState("Farmer");
+
   return (
     <div className="flex h-screen items-center justify-center bg-white p-5">
       <div className="flex h-full flex-col md:flex-row">
@@ -12,6 +17,7 @@ export default function Login() {
         </div>
         <div className="flex flex-col md:w-1/2">
           <div className="inputContainer border-red-800 p-5 md:p-10 md:pb-0">
+            <LoginSelector value={loginType} set={setLoginType} />
             <div className="loginContainer rounded-lg border border-input">
               <h3 className="m-3 text-2xl font-semibold tracking-tight">
                 LogIn
