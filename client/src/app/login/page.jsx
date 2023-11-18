@@ -8,6 +8,43 @@ import LoginSelector from "@/components/login_selector";
 
 export default function Login() {
   const [loginType, setLoginType] = useState("Farmer");
+  const [form ,setForm] = useState({"username" : "" ,"password" : ""});
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      if (
+        !form.username || !form.password
+      ) {
+        alert("Please fill all the fields");
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/${loginType.toLowerCase()}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username  : form.username,
+          password : form.password
+        }),
+      });
+      const data = await response.json();
+      if (data.token) {
+        const user  = { token : data.token, type : "farmer" }
+        localStorage.setItem("user", JSON.stringify(user));
+        setForm({
+          username : "",
+          password : ""
+        });
+        router.push("/marketplace/warehouse");
+      } else {
+        alert("Some error occured");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center bg-white p-5">
@@ -23,17 +60,22 @@ export default function Login() {
                 LogIn
               </h3>
               <p className="p-5">
-                Login with the data you entered during your registration.
+                Login for {loginType} with the data you entered during your registration.
               </p>
               <div className="p-5">
-                <InputWithLabel label="Email" />
+                <InputWithLabel label="Username" onChange={(e)=>setForm({...form , username : e.target.value})}
+                value = {form.username}
+                  />
               </div>
               <div className="p-5">
-                <InputWithLabel label="Password" />
+                <InputWithLabel label="Password" onChange={(e)=>setForm({...form , password : e.target.value})} value={form.password}/>
               </div>
               <div className="flex flex-col items-end justify-end p-5">
                 <span className="p-2">
-                  <Button>Login</Button>
+                  <Button
+                  onClick={handleSubmit}
+
+                  >Login</Button>
                 </span>
                 <p className="text-sm">
                   <a href="#">Did you forget your password?</a>
