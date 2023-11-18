@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useContext } from "react";
-import { UserContext } from "../../../context/session";
 import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 import RegisterSelector from "@/components/register_selector";
@@ -102,7 +100,7 @@ function WareHouseRegister() {
       const data = await response.json();
       if (data.token) {
         alert("Registered Successfully");
-        setUser({ token : data.token, type : "warehouse"});
+        setUser({ token: data.token, type: "warehouse" });
         setForm({
           name: "",
           username: "",
@@ -122,7 +120,6 @@ function WareHouseRegister() {
         });
       } else {
         alert("Some error occured");
-        
       }
     } catch (err) {
       console.log(err.message);
