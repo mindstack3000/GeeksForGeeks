@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 
 app.use("/farmer", require("./controller/farmer.controller"));
 app.use("/warehouse", require("./controller/warehouse.controller"));
-// app.use("/customer", require("./controller/customer.controller"));
+app.use("/customer", require("./controller/customer.controller"));
 
 
 
