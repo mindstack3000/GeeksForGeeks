@@ -34,7 +34,7 @@ function FarmerLogin() {
           <InputWithLabel label="Capacity" type="text" />
           <InputWithLabel label="Temperature Control" type="text" />
 
-          <div className="flex w-full items-start justify-start gap-5">
+          <div className="flex w-full flex-col items-start justify-start gap-5 sm:flex-row">
             <label className="w-1/5  whitespace-nowrap text-lg font-normal tracking-tight">
               Types of Crop
             </label>
