@@ -8,67 +8,42 @@ import React, { useState, useEffect } from "react";
 import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
-  const [data, setData] = useState([]);
-  const  user  = JSON.parse(localStorage.getItem("user")) || {};
+  const [storageSpaces, setStorageSpaces] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
-    fetch("http://localhost:5000/warehouse/getData",{
+    fetch("http://localhost:5000/marketplace",{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + user?.token,
       },
+    }).then(res => res.json())
+    .then(data => {
+      data.map((d) => {
+        d.owner = d.name;
+        d.location = d.location;
+        d.availableCapacity = d.facility.capacity;
+        d.price = d.price;
+        d.tempType = d.facility.tempType;
+        d.certification = d.certifications;
+        d.security = d.security;
+        d.phoneNo = d.phoneNo;
+        d.email = d.email;
+        d.temp_low = d.facility.temperature.low;
+        d.temp_high = d.facility.temperature.high;
+      
+      })
+      setStorageSpaces(data)
     })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      
   }, []);
 
-  const storageSpaces = [
-    {
-      owner: "John Doe",
-      location: "Nagpur",
-      availableCapacity: 100,
-      price: "$50 per month",
-      tempType: "Cold Storage",
-      certification: "ISO 9001:2015",
-      security: "24/7 surveillance",
-      phoneNo: "123-456-7890",
-      email: "john.doe@example.com",
-      operatingHours: "8:00 AM - 6:00 PM",
-      closingTime: "6:00 PM",
-      temp_low: 0,
-      temp_high: 10,
-      address: "123 Storage Street, Nagpur",
-    },
-    {
-      owner: "Jane Smith",
-      location: "Nagpur",
-      availableCapacity: 150,
-      price: "$75 per month",
-      tempType: "Hot Storage",
-      certification: "Storage Association Certified",
-      security: "Access card entry",
-      phoneNo: "987-654-3210",
-      email: "jane.smith@example.com",
-      operatingHours: "9:00 AM - 7:00 PM",
-      closingTime: "7:00 PM",
-      temp_low: 10,
-      temp_high: 20,
-      address: "456 Storage Avenue, Nagpur",
-    },
-  ];
 
   const [search, setSearch] = useState("");
   const [tempType, setTempType] = useState("");
-  const [temp, setTemp] = useState("");
-  const [capacity, setCapacity] = useState("");
+  const [temp, setTemp] = useState(undefined);
+  const [capacity, setCapacity] = useState(undefined);
 
   const [filteredStorageSpaces, setFilteredStorageSpaces] =
     useState(storageSpaces);
@@ -86,11 +61,14 @@ function WarehouseMarketplace() {
     });
 
     filteredStorageSpaces = filteredStorageSpaces.filter((storageSpace) => {
+    console.log(storageSpace.tempType==tempType)
       return storageSpace.tempType
-        .toLowerCase()
-        .includes(tempType.toLowerCase());
+        .toLowerCase() == tempType.toLowerCase() && tempType;
     });
 
+    if(temp){
+
+    
     filteredStorageSpaces = filteredStorageSpaces.filter((storageSpace) => {
       return (
         storageSpace.temp_low <= parseInt(temp) &&
@@ -98,13 +76,16 @@ function WarehouseMarketplace() {
         temp
       );
     });
+  }
 
+  if(capacity){
     filteredStorageSpaces = filteredStorageSpaces.filter((storageSpace) => {
       return storageSpace.availableCapacity >= parseInt(capacity) && capacity;
     });
+  }
 
     setFilteredStorageSpaces(filteredStorageSpaces);
-  }, [search, tempType, temp, capacity]);
+  }, [search, tempType, temp, capacity,storageSpaces]);
 
   return (
     <>
@@ -193,7 +174,10 @@ function WarehouseMarketplace() {
         </div>
       </section>
 
-      <div className="mt-10 h-[1px] w-full bg-input" />
+{
+  console.log(filteredStorageSpaces,storageSpaces)
+
+}      <div className="mt-10 h-[1px] w-full bg-input" />
 
       <section className="grid w-full grid-cols-1 xl:grid-cols-2">
         {
