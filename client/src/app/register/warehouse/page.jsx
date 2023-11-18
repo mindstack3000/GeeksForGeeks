@@ -91,12 +91,12 @@ function WareHouseRegister() {
           />
           <InputWithLabel
             label="Phone No."
-            type="text"
+            type="tel"
             onChange={(e) => handleChange(e, "phoneNo")}
           />
           <InputWithLabel
             label="Email"
-            type="text"
+            type="email"
             onChange={(e) => handleChange(e, "email")}
           />
           <InputWithLabel
@@ -106,7 +106,7 @@ function WareHouseRegister() {
           />
           <InputWithLabel
             label="Capacity"
-            type="text"
+            type="number"
             onChange={(e) => handleChange(e, "capacity")}
           />
           <InputWithLabel
@@ -177,12 +177,12 @@ function WareHouseRegister() {
             <div className="flex w-4/5 flex-wrap items-start justify-start gap-3">
               <InputWithLabel
                 label="Low"
-                type="text"
+                type="number"
                 onChange={(e) => handleChange(e, "temp_low")}
               />
               <InputWithLabel
                 label="High"
-                type="text"
+                type="number"
                 onChange={(e) => handleChange(e, "temp_high")}
               />
             </div>

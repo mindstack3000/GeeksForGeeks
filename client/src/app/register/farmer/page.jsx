@@ -106,6 +106,7 @@ function FarmerRegister() {
         <div className="mt-10 flex w-full flex-col items-center justify-center gap-5 ">
           <InputWithLabel
             label="Aadhar Card No"
+            type="number"
             onChange={(e) => handleChange(e, "adharNo")}
           />
           <InputWithLabel
@@ -123,12 +124,12 @@ function FarmerRegister() {
           />
           <InputWithLabel
             label="Phone No."
-            type="text"
+            type="tel"
             onChange={(e) => handleChange(e, "phoneNo")}
           />
           <InputWithLabel
             label="Email"
-            type="text"
+            type="email"
             onChange={(e) => handleChange(e, "email")}
           />
           <InputWithLabel
@@ -137,7 +138,8 @@ function FarmerRegister() {
             onChange={(e) => handleChange(e, "address")}
           />
           <InputWithLabel
-            label="Land Size "
+            label="Land Size"
+            type="number"
             onChange={(e) => handleChange(e, "landSize")}
           />
 
