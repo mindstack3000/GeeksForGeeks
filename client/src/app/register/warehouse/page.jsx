@@ -125,7 +125,6 @@ function WareHouseRegister() {
         router.push("/marketplace/warehouse");
       } else {
         alert("Some error occured");
-        
       }
     } catch (err) {
       console.log(err.message);
