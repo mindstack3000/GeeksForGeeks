@@ -64,9 +64,9 @@ router.post("/register", async (req, res) => {
     if (token) {
       res
         .status(201)
-        .json({ message: "Warehouse register successfully", token });
+        .json({ message: "Warehouse owner register successfully", token });
     } else {
-      res.status(400).json({ message: "Warehouse register failed" });
+      res.status(400).json({ message: "Warehouse owner register failed" });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -104,9 +104,9 @@ router.post("/login", async (req, res) => {
     );
 
     if (token) {
-      res.status(201).json({ message: "Warehoouse login successfully", token });
+      res.status(201).json({ message: "Warehoouse owner login successfully", token });
     } else {
-      res.status(400).json({ message: "Warehouse login failed" });
+      res.status(400).json({ message: "Warehouse owner login failed" });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -117,7 +117,7 @@ router.post("/login", async (req, res) => {
  * @route PUT /warehouse/update
  */
 
-router.put("/update", auth,  async (req, res) => {
+router.put("/update", auth, async (req, res) => {
   try {
     const {
       name,
@@ -133,39 +133,39 @@ router.put("/update", auth,  async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    const user = await Warehouse.findById({ _id: req.params.id });
-    if (!user) return res.status(400).json({ msg: "User does not exists" });
+    const existingUser = await Warehouse.findById(req.userId);
 
     // Update the user fields
-    await Warehouse.updateOne(
-      { _id: req.params.id },
-      {
-        name,
-        username,
-        location,
-        facility,
-        certifications,
-        security,
-        phoneNo,
-        email,
-        operatingHours,
-        servicesOffered,
-      }
-    );
+    await Warehouse.updateOne({ _id: req.userId },  {
+      name,
+      username,
+      location,
+      facility,
+      certifications,
+      security,
+      phoneNo,
+      email,
+      operatingHours,
+      servicesOffered,
+    });
 
     // Sign the token
     const token = jwt.sign(
-      { id: newUser._id, username: newUser.username },
+      { id: existingUser._id, username: existingUser.username },
       process.env.JWT_SECRET
     );
 
     if (token) {
-      res.status(201).json({ message: "Warehouse update successfully", token });
+      res.status(201).json({ message: "Warehouse owner updated successfully", token });
     } else {
-      res.status(400).json({ message: "Warehouse update failed" });
+      res.status(400).json({ message: "Warehouse owner update failed" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
+  }
 });
+
 
 /*
  * @route DELETE /warehouse/delete

@@ -106,7 +106,80 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTg3NGM4M
 
 # delete
 
-DELETE http://localhost:5000/farmer/delete/655874c823abe96295cb9555 HTTP/1.1
+DELETE http://localhost:5000/customer/delete/655874c823abe96295cb9555 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTg2ZWI5NWE0ZjM1ZDQ2MGU1NmIxNyIsInVzZXJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNzAwMjk0MzI5fQ.F_01JSrGwMCiDzb8zYbIN_WAWBMP5WxDj3IXxus0eHI
+
+###
+
+# Farmer
+
+# Registeration
+
+POST http://localhost:5000/warehouse/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "adharNo" : "123456789012",
+    "fullName": "Rajesh",
+    "phoneNo": "1234567890",
+    "email": "temp@gmail.com",
+    "address": "Bangalore",
+    "username": "Rajesh",
+    "password": "Bangalore",
+    "landSize": "10",
+    "typeOfCrop":["Rice","Wheat","Maize"]
+}
+
+###
+
+#login
+
+POST http://localhost:5000/warehouse/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "bhupendra",
+    "password": "Bangalore"
+}
+
+
+###
+
+# update
+
+PUT http://localhost:5000/warehouse/update HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTg3NGU5ZWZiNGNhMmQ0MGNjODk5MSIsInVzZXJuYW1lIjoiYmh1cGVuZHJhIiwiaWF0IjoxNzAwMjk4NDQzfQ.3dgzZcK4Sg-N10TMVeOdfyRvR9JpzLtrMlWOhSu6a0o
+
+{
+   "name": "bhupendra",
+   "username": "bhupendra",
+   "location": "Mumbai",
+   "facility": {
+     "temperature":{
+       "low": 10,
+       "high": 40
+     },
+    "capacity": 100,
+    "tempType": "hot"
+   },
+   "certifications": "higifh",
+   "security": "secure",
+   "phoneNo": 646254284,
+   "email": "bh@gmail.com",
+   "operatingHours":{
+     "open": 8,
+     "close": 9
+   },
+   "servicesOffered": "truck"
+}
+
+### 
+
+# delete
+
+DELETE http://localhost:5000/farmer/delete/65586eb95a4f35d460e56b17 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTg2ZWI5NWE0ZjM1ZDQ2MGU1NmIxNyIsInVzZXJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNzAwMjk0MzI5fQ.F_01JSrGwMCiDzb8zYbIN_WAWBMP5WxDj3IXxus0eHI
 
