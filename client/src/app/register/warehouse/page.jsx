@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import InputWithLabel from "@/components/input_with_label";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import RegisterSelector from "@/components/register_selector";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -19,12 +20,12 @@ const cropTypes = [
   "Tomatoes",
   "Fruits",
   "Vegetables",
-  "Other",
 ];
 
 function WareHouseRegister() {
   const [selectTypeOfStorage, setSelectTypeOfStorage] = useState("");
   const [selectCropTypes, setSelectCropTypes] = useState([]);
+  const router = useRouter();
 
   const [form, setForm] = useState({
     name: "",
@@ -65,7 +66,6 @@ function WareHouseRegister() {
         form.security == "" ||
         form.typeOfCrop.length == 0
       ) {
-        console.log("form", form);
         alert("Please fill all the fields");
         return;
       }
@@ -100,7 +100,11 @@ function WareHouseRegister() {
       const data = await response.json();
       if (data.token) {
         alert("Registered Successfully");
-        setUser({ token: data.token, type: "warehouse" });
+        const user = { token: data.token, type: "warehouse" };
+        if(localStorage.getItem("user")){
+          localStorage.removeItem("user");
+        }
+        localStorage.setItem("user", JSON.stringify(user));
         setForm({
           name: "",
           username: "",
@@ -118,6 +122,7 @@ function WareHouseRegister() {
           price: "",
           typeOfCrop: [],
         });
+        router.push("/marketplace/warehouse");
       } else {
         alert("Some error occured");
       }
@@ -174,12 +179,18 @@ function WareHouseRegister() {
           <InputWithLabel
             label="Address"
             type="text"
-            onChange={(e) => handleChange(e, "address")}
+            onChange={(e) => handleChange(e, "location")}
           />
           <InputWithLabel
             label="Capacity"
             type="number"
             onChange={(e) => handleChange(e, "capacity")}
+          />
+          <InputWithLabel
+            label="Price"
+            type="number"
+            placeholder="Price per day/per ton"
+            onChange={(e) => handleChange(e, "price")}
           />
           <InputWithLabel
             label="Certifications"

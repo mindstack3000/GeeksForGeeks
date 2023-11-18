@@ -17,6 +17,10 @@ function RegisterSelector() {
       name: "Warehouse",
       link: "/register/warehouse",
     },
+    {
+      name: "Customer",
+      link: "/register/customer",
+    }
   ];
 
   return (

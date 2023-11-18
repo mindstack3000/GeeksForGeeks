@@ -80,6 +80,9 @@ function FarmerRegister() {
       const data = await response.json();
       if (data.token) {
         const user = { token: data.token, type: "farmer" };
+        if (localStorage.getItem("user")) {
+          localStorage.removeItem("user");
+        }
         localStorage.setItem("user", JSON.stringify(user));
         setForm({
           adharNo: "",

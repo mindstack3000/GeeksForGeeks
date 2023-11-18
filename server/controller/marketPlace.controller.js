@@ -14,28 +14,34 @@ const auth = require("../middleware/auth.middleware");
 
 // Farmer purchase warehouse
 
-router.post("/", async (req, res) => {
-    try {
-      const { crop } = req.body;
-  
-      // Validate that a crop is provided in the request
-      if (!crop) {
-        return res.status(400).json({ error: "Crop name is required." });
-      }
-  
-      // Find warehouses that have the specified crop in the typeOfCrop array
-      const shortlistedWarehouses = await Warehouse.find({
-        typeOfCrop: { $in: [crop] }
-        .select("name location facility certifications security price email servicesOffered operatingHours phoneNo"),
-      });
-  
-      // Return the shortlisted warehouses
-      res.status(200).json({ shortlistedWarehouses });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
+router.get("/", async (req, res) => {
+  try {
+    const allWarehouses = await Warehouse.find().exec();
+    
+    // Use map to transform the data
+    const transformedWarehouses = allWarehouses.map((item) => ({
+      owner: item.name,
+      location: item.location,
+      availableCapacity: item.facility.capacity,
+      price: item.price,
+      tempType: item.facility.tempType,
+      certifications: item.certifications,
+      security: item.security,
+      phoneNo: item.phoneNo,
+      email: item.email,
+      temp_low: item.facility.temperature.low,
+      temp_high: item.facility.temperature.high,
+      typeOfCrop: item.typeOfCrop,
+    }));
+
+    // Return the transformed warehouses
+    res.status(200).json(transformedWarehouses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
   
 
