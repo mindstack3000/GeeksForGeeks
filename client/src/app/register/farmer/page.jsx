@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 
@@ -20,7 +20,6 @@ const cropTypes = [
 ];
 
 function FarmerRegister() {
-  // const { setUser } = useContext(UserContext);
   const [selectCropTypes, setSelectCropTypes] = useState([]);
   const router = useRouter();
   const [form, setForm] = useState({
@@ -80,7 +79,7 @@ function FarmerRegister() {
       });
       const data = await response.json();
       if (data.token) {
-        const user  = { token : data.token, type : "farmer" }
+        const user = { token: data.token, type: "farmer" };
         localStorage.setItem("user", JSON.stringify(user));
         setForm({
           adharNo: "",
