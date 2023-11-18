@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const Account = require("../models/account.model");
+const Farmer = require("../model/farmer.model");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
 
@@ -24,11 +24,11 @@ router.post("/register", async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    const user = await Account.findOne({ username });
+    const user = await Farmer.findOne({ username });
     if (user) return res.status(400).json({ msg: "Username already exists" });
 
     // Create a new user
-    const newUser = new Account({
+    const newUser = new Farmer({
       adharNo,
       fullName,
       phoneNo,
@@ -81,9 +81,9 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Not all fields have been entered." });
 
     // Check for existing user
-    const user = await Account.findOne({ username });
+    const user = await Farmer.findOne({ username });
     if (!user)
-      return res.status(400).json({ msg: "No account with this username" });
+      return res.status(400).json({ msg: "No Farmer with this username" });
 
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
@@ -126,11 +126,11 @@ router.put("/update/:id", auth, async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    const user = await Account.findOne({ _id: req.params.id });
+    const user = await Farmer.findOne({ _id: req.params.id });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
 
     // Create a new user
-    const newUser = new Account({
+    const newUser = new Farmer({
       adharNo,
       fullName,
       phoneNo,
@@ -150,7 +150,7 @@ router.put("/update/:id", auth, async (req, res) => {
     newUser.password = hashedPassword;
 
     // Save the user
-    await Account.updateOne({ _id: req.params.id }, newUser);
+    await Farmer.updateOne({ _id: req.params.id }, newUser);
 
     // Sign the token
     const token = jwt.sign(
@@ -176,10 +176,10 @@ router.put("/update/:id", auth, async (req, res) => {
 
 router.delete("/delete/:id", auth, async (req, res) => {
   try {
-    const user = await Account.findOne({ _id: req.params.id });
+    const user = await Farmer.findOne({ _id: req.params.id });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
 
-    await Account.findByIdAndDelete(req.params.id);
+    await Farmer.findByIdAndDelete(req.params.id);
     res.json({ msg: "User deleted" });
   } catch (error) {
     console.log(error);
