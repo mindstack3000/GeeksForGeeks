@@ -2,7 +2,7 @@
 
 import SideNav from "@/components/dashboard/sidenav";
 import { Button } from "@/components/ui/button";
-import React, { Children } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
