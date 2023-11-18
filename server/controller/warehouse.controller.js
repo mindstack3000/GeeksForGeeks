@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const Warehouse = require("../model/warehouse.model");
-const Farmer = require("../model/farmer.model")
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
 
