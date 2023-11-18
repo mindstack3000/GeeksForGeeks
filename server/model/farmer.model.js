@@ -1,20 +1,6 @@
 const mongoose = require("mongoose");
 const client = require("../config/connect");
 
-const cropTypes = [
-  "Wheat",
-  "Rice",
-  "Corn",
-  "Barley",
-  "Soybeans",
-  "Cotton",
-  "Potatoes",
-  "Tomatoes",
-  "Fruits",
-  "Vegetables",
-  "Other",
-];
-
 const farmerSchema = new mongoose.Schema({
   adharNo: {
     type: String,
@@ -49,16 +35,15 @@ const farmerSchema = new mongoose.Schema({
     required: true,
   },
   typeOfCrop: {
-    type: String,
-    enum: cropTypes,
+    type: [String],
     required: true,
   },
   otp : {
-    type : String,
+    type : Number,
     require : false
   }
 });
 
-const Farmer = client.model("Farmer", accountSchema);
+const Farmer = client.model("Farmer", farmerSchema);
 
 module.exports = Farmer;
