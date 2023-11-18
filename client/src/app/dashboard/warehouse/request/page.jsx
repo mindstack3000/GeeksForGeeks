@@ -1,15 +1,29 @@
-import React from "react";
+"use client";
+import React,{useEffect,useState} from "react";
 import InfoCard from "@/components/dashboard/infocard";
 
 function WareHouseDashboardRequest() {
-  const userAttributes = {
-    Name: "John Doe",
-    Quanrtity: "105",
-    Crop: "rice",
-    Dutration: "1 year",
-    PhoneNo: "+91-9876543210",
-    Email: "abc@gmail.com",
-  };
+  const [userAttributes, setUserAttributes] = React.useState({});
+  console.log(localStorage.getItem("user"));
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const response = fetch(`http://localhost:5000/transaction/warehouse-request/${user.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data,"request");
+          setUserAttributes(data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>

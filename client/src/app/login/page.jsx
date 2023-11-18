@@ -34,7 +34,10 @@ export default function Login() {
       });
       const data = await response.json();
       if (data.token) {
-        const user  = { token : data.token, type : "farmer" }
+        const user  = { token : data.token, type :  loginType.toLowerCase() , id : data.id};
+        if (localStorage.getItem("user")) {
+          localStorage.removeItem("user");
+        }
         localStorage.setItem("user", JSON.stringify(user));
         setForm({
           username : "",
