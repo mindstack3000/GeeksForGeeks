@@ -6,7 +6,9 @@ function Header() {
   return (
     <div className="flex h-24 w-full items-center justify-between bg-primary ">
       <div className="mx-3">
-        <Button>FreshFlow</Button>
+        <Button>
+          <h1 className="text-3xl font-bold text-white">Fresh Flow</h1>
+        </Button>
       </div>
       <div className="mx-5 flex justify-evenly">
         <span className="mx-3">
