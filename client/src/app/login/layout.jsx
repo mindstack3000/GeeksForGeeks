@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 function LoginLayout({children}){
-    return<>{children}</>
+    return<>
+    {children}
+    </>
 }
 
 export default LoginLayout;

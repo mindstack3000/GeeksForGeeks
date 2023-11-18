@@ -1,26 +1,22 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-function RegisterSelector() {
-  const path = usePathname();
-  const router = useRouter();
-
+function LoginSelector({ value, set }) {
   const registerLinks = [
     {
       name: "Farmer",
-      link: "/register/farmer",
+      apiLink: "",
     },
     {
       name: "Warehouse",
-      link: "/register/warehouse",
+      apiLink: "",
     },
     {
       name: "Customer",
-      link: "/register/customer",
-    }
+      apiLink: "",
+    },
   ];
 
   return (
@@ -28,9 +24,9 @@ function RegisterSelector() {
       {registerLinks.map((link) => (
         <Button
           key={link.name}
-          variant={path === link.link ? "secondary" : "ghost"}
+          variant={value === link.name ? "secondary" : "ghost"}
           onClick={() => {
-            router.push(link.link);
+            set(link.name);
           }}
         >
           {link.name}
@@ -40,4 +36,4 @@ function RegisterSelector() {
   );
 }
 
-export default RegisterSelector;
+export default LoginSelector;

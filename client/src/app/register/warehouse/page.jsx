@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import InputWithLabel from "@/components/input_with_label";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import RegisterSelector from "@/components/register_selector";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -20,12 +20,12 @@ const cropTypes = [
   "Tomatoes",
   "Fruits",
   "Vegetables",
-  "Other",
 ];
 
 function WareHouseRegister() {
   const [selectTypeOfStorage, setSelectTypeOfStorage] = useState("");
   const [selectCropTypes, setSelectCropTypes] = useState([]);
+  const router = useRouter();
 
   const [form, setForm] = useState({
     name: "",
@@ -51,7 +51,83 @@ function WareHouseRegister() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("form", form);
+    try {
+      e.preventDefault();
+
+      if (
+        form.location == "" ||
+        form.email == "" ||
+        form.name == "" ||
+        form.password == "" ||
+        form.phoneNo == "" ||
+        form.username == "" ||
+        form.capacity == "" ||
+        form.certifications == "" ||
+        form.security == "" ||
+        form.typeOfCrop.length == 0
+      ) {
+        alert("Please fill all the fields");
+        return;
+      }
+
+      const response = await fetch("http://localhost:5000/warehouse/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          username: form.username,
+          password: form.password,
+          location: form.location,
+          facility: {
+            temperature: {
+              low: form.temp_low,
+              high: form.temp_high,
+            },
+            capacity: form.capacity,
+            tempType: form.tempType,
+          },
+          certifications: form.certifications,
+          security: form.security,
+          phoneNo: form.phoneNo,
+          email: form.email,
+          servicesOffered: form.servicesOffered,
+          price: form.price,
+          typeOfCrop: form.typeOfCrop,
+        }),
+      });
+      const data = await response.json();
+      if (data.token) {
+        const user = { token: data.token, type: "warehouse" };
+        if(localStorage.getItem("user")){
+          localStorage.removeItem("user");
+        }
+        localStorage.setItem("user", JSON.stringify(user));
+        setForm({
+          name: "",
+          username: "",
+          password: "",
+          location: "",
+          temp_low: "",
+          temp_high: "",
+          capacity: "",
+          tempType: "",
+          certifications: "",
+          security: "",
+          phoneNo: "",
+          email: "",
+          servicesOffered: "false",
+          price: "",
+          typeOfCrop: [],
+        });
+        router.push("/marketplace/warehouse");
+      } else {
+        alert("Some error occured");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   useEffect(() => {
@@ -65,7 +141,7 @@ function WareHouseRegister() {
   return (
     <>
       <RegisterSelector />
-      <div className="flex h-[85%] w-full flex-col items-start justify-start gap-5  overflow-scroll rounded-lg border border-input p-10">
+      <div className="flex h-[85%] w-full flex-col items-start justify-start gap-5   rounded-lg border border-input p-10">
         <div className="flex w-full flex-col items-start justify-center gap-2">
           <h2 className="w-full scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             Register
@@ -102,12 +178,18 @@ function WareHouseRegister() {
           <InputWithLabel
             label="Address"
             type="text"
-            onChange={(e) => handleChange(e, "address")}
+            onChange={(e) => handleChange(e, "location")}
           />
           <InputWithLabel
             label="Capacity"
             type="number"
             onChange={(e) => handleChange(e, "capacity")}
+          />
+          <InputWithLabel
+            label="Price"
+            type="number"
+            placeholder="Price per day/per ton"
+            onChange={(e) => handleChange(e, "price")}
           />
           <InputWithLabel
             label="Certifications"

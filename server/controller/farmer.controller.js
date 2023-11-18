@@ -57,7 +57,7 @@ router.post("/register", async (req, res) => {
     );
 
     if(token){
-      res.status(201).json({ message: "Farmer register successfully", token });
+      res.status(201).json({ message: "Farmer register successfully", token ,id : newUser._id});
     }else{
       res.status(400).json({ message: "Farmer register failed" });
     }
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
       if(token){
-        res.status(201).json({ message: "Farmer login successfully", token });
+        res.status(201).json({ message: "Farmer login successfully", token, id : user._id });
       }
       else{
         res.status(400).json({ message: "Farmer login failed" });
@@ -171,5 +171,21 @@ router.delete("/delete/:id", auth, async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+ /* 
+ * GET /farmer/getData
+  */
+
+ router.get("/getData", auth, async (req, res) => {
+  try {
+    const user = await Farmer.findById(req.userId);
+    if (!user) return res.status(400).json({ msg: "User does not exists" });
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 module.exports = router

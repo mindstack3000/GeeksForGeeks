@@ -33,6 +33,10 @@ const warehouseSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    occupancy: {
+      type: Number,
+      required: false,
+    },
     tempType: {
       type: String,
       required: true,

@@ -1,6 +1,7 @@
 import React from "react";
-import Header from "@/components/ui/header";
-import { Footer } from "@/components/ui/footer";
+import Header from "../components/homePage/header";
+import { Footer } from "../components/ui/footer";
+
 
 export default function Home() {
   const Features = [
@@ -8,24 +9,23 @@ export default function Home() {
       title: "Farmer",
       description:
         "Farmers can easily manage their produce, book storage space, and arrange transportation, while warehouses optimize their capacity usage.",
-      },
-      {
-        title: "Warehouse Owner",
-        description:
+    },
+    {
+      title: "Warehouse Owner",
+      description:
         "Warehouses can create profiles on the platform, showcasing their services, location, and available storage capacity.",
-      },
-      {
-        title: "Customer",
-        description:
+    },
+    {
+      title: "Customer",
+      description:
         "Customers can explore a diverse range of agricultural produce available on the platform and make direct purchases from farmers.",
-      },
-    ];
-    const AppInfo = [
-      {
-        title: "Farmer",
-        image: "login",
-        description:
-        `Farmer Registration and Profile: Farmers can sign up on the platform and create profiles, sharing details about their farms.
+    },
+  ];
+  const AppInfo = [
+    {
+      title: "Farmer",
+      image: "/appInfo0.jpg",
+      description: `Farmer Registration and Profile: Farmers can sign up on the platform and create profiles, sharing details about their farms.
         Warehouse and Cold Storage Information: Farmers can access
         information about available warehouses and cold storage
         facilities, including their locations and services. Inventory
@@ -46,12 +46,11 @@ export default function Home() {
         Forecast Integration: Farmers can plan their activities based on
         weather forecasts, improving harvest and storage planning.
         `,
-      },
-      {
-        title: "Warehouse Owner",
-        image: "login",
-        description:
-        `    Profile and Visibility:
+    },
+    {
+      title: "Warehouse Owner",
+      image: "/appInfo2.jpg",
+      description: `    Profile and Visibility:
         
         Warehouses can create profiles on the platform, showcasing their services, location, and available storage capacity.
         Capacity Management:
@@ -69,12 +68,11 @@ export default function Home() {
         Marketplace Access:
         
         Gain access to the platform's marketplace, connecting warehouses with potential buyers and distributors.`,
-      },
-      {
-        title: "Customer",
-        image:"login",
-        description:
-        `   Explore and Purchase:
+    },
+    {
+      title: "Customer",
+      image: "/login.jpg",
+      description: `   Explore and Purchase:
         
         Customers can explore a diverse range of agricultural produce available on the platform and make direct purchases from farmers.
         Verified Quality:
@@ -132,15 +130,15 @@ export default function Home() {
           Features
         </h1>
         <div className="mx-4 flex flex-wrap justify-between sm:mx-6 md:mx-8 lg:mx-12">
-          {Features.map((item , i) => (
+          {Features.map((item, i) => (
             <div
               key={i}
-              className="card m-2 flex h-80 flex-col items-center justify-center rounded-xl border border-white p-2 shadow-2xl md:m-4 md:h-96 md:p-3 xl:w-1/4"
+              className="card m-2 flex h-80 flex-col items-center justify-center gap-5 rounded-xl border border-input p-2 md:m-4 md:h-96 md:p-3 xl:w-1/4"
             >
-              <h3 className="mb-2 scroll-m-20 text-base font-semibold tracking-tight md:text-lg xl:text-xl">
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                 {item.title}
               </h3>
-              <p className="scroll-m-20 overflow-clip text-ellipsis p-2 text-sm font-medium tracking-tight md:text-base xl:text-lg">
+              <p className="scroll-m-20 overflow-clip text-ellipsis p-2 text-center text-sm font-normal tracking-tight md:text-base xl:text-lg">
                 {item.description}
               </p>
               <a
@@ -153,50 +151,35 @@ export default function Home() {
           ))}
         </div>
       </div>
-      {/* App Information */}
-      {/* <div className="w-full p-4 text-black md:p-8 lg:p-12 flex">
-        {AppInfo.map((item,i) => (
-          <div key={i} className={`flex ${i%2!=0 ? ' ': ''} flex-col-reverse md:flex-row w-full h-auto md:h-96 my-5`}>
-            <div className="w-full md:w-1/2 mb-4 md:mb-0">
-              <h3 className="m-2 scroll-m-20 text-xl md:text-4xl lg:text-5xl p-2 font-extrabold tracking-tight">
-                {item.title}
-              </h3>
-              <p className="p-2 text-justify text-sm md:text-base lg:text-lg">
-                {item.description}
-
-              </p>
-            </div>
-            <div className="w-full md:w-1/2">
-              <img
-                className="w-full h-48 md:h-96 object-cover p-0 m-0"
-                src={`/${item.image}.jpg`}
-                alt="Farmer"
-              />
-            </div>
-          </div>
-        ))}
-      </div> */}
-      {/* {AppInfo.map((item,i) => (
-        <div key={i}
-        className={`flex ${i % 2 !== 0 ? 'flex-row' : 'flow-row-reverse'} `}
+      {/* App Info */}
+      {AppInfo.map((item, i) => (
+        <div
+          key={i}
+          className={`flex w-full items-center justify-center gap-5 p-4 text-black md:p-8 lg:p-12 ${
+            i % 2 != 0
+              ? " flex-col md:flex-row-reverse"
+              : "flex-col md:flex-row"
+          }`}
         >
-          <div className="flex flex-col">
-            
-          <p>{item.title}</p>
-          <p>{item.description}</p>
-          </div>
-          <div><img
-          src={`/${item.image}.jpg`}
-          alt="Farmer"
-          width={500}
-          height={500}
-          />
+          <div className=" h-[500px] w-full md:w-1/2">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="h-full w-full rounded-xl object-cover"
+            />
           </div>
 
+          <div className="mb-4 w-full md:mb-0 md:w-1/2">
+            <h3 className="m-2 scroll-m-20 p-2 text-xl font-extrabold tracking-tight md:text-4xl lg:text-5xl">
+              {item.title}
+            </h3>
+            <p className="p-2 text-justify text-sm md:text-base lg:text-lg">
+              {item.description}
+            </p>
+          </div>
         </div>
-      ))} */}
-      
-      {/* Footer  */}
+      ))}
+
       <Footer />
     </main>
   );
