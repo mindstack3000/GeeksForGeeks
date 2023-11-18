@@ -68,7 +68,7 @@ router.post("/register", async (req, res) => {
     if (token) {
       res
         .status(201)
-        .json({ message: "Warehouse owner register successfully", token });
+        .json({ message: "Warehouse owner register successfully", token, id : newUser._id });
     } else {
       res.status(400).json({ message: "Warehouse owner register failed" });
     }
@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
     // Check if the password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
-      return res.status(400).json({ msg: "Invalid credentials", token });
+      return res.status(400).json({ msg: "Invalid credentials", token , id : user._id});
 
     // Sign the token
     const token = jwt.sign(
@@ -108,7 +108,7 @@ router.post("/login", async (req, res) => {
     );
 
     if (token) {
-      res.status(201).json({ message: "Warehoouse owner login successfully", token });
+      res.status(201).json({ message: "Warehoouse owner login successfully", token , id : user._id});
     } else {
       res.status(400).json({ message: "Warehouse owner login failed" });
     }
@@ -193,8 +193,23 @@ router.get("/getData", auth, async (req, res) => {
   try {
     const user = await Warehouse.findById(req.userId);
     if (!user) return res.status(400).json({ msg: "User does not exists" });
-
-    res.json(user);
+   
+      res.status(200).json(
+        {
+          owner: user.name,
+          location: user.location,
+          availableCapacity: user.facility.capacity,
+          Price: user.price,
+          TempType: user.facility.tempType,
+          Certification: user.certifications,
+          Security: user.security,
+          PhoneNo: user.phoneNo,
+          Email: user.email,
+          temp_low: user.facility.temperature.low,
+          temp_high: user.facility.temperature.high,
+          TypesofGoods: user.typeOfCrop,
+        });
+      
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

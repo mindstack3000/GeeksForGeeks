@@ -44,17 +44,18 @@ router.post("/farmer-purchase", auth, async (req, res) => {
 router.get("/warehouse-request/:id", auth, async (req, res) => {
   try {
     const warehouseId = req.params.id;
+    console.log(warehouseId);
     const allTransaction = await Transaction.find({ warehouseId: warehouseId });
     let farmerInfo = [];
     for (let i = 0; i < allTransaction.length; i++) {
       let farmer = await Farmer.findById(allTransaction[i].farmerId);
       farmerInfo.push({
-        farmerName: farmer.fullName,
-        quantity: allTransaction[i].quantity,
-        crop: allTransaction[i].crop,
-        duration: allTransaction[i].duration,
-        phoneNo: farmer.phoneNo,
-        email: farmer.email,
+        Name: farmer.fullName,
+        Quantity: allTransaction[i].quantity,
+        Crop: allTransaction[i].crop,
+        Dutration: allTransaction[i].duration,
+        PhoneNo: farmer.phoneNo,
+        Email: farmer.email,
       });
     }
     if (farmerInfo) {

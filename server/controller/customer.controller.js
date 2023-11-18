@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
     if (token) {
       res
         .status(201)
-        .json({ message: "Customer register successfully", token });
+        .json({ message: "Customer register successfully", token ,id : newUser._id });
     } else {
       res.status(400).json({ message: "Customer register failed" });
     }
@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
     if (token) {
-      res.status(201).json({ message: "Customer login successfully", token });
+      res.status(201).json({ message: "Customer login successfully", token, id : user._id });
     } else {
       res.status(400).json({ message: "Customer login failed" });
     }
