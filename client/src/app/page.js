@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/homePage/header.jsx";
+import Header from "../components/homePage/header";
 import { Footer } from "../components/ui/footer";
 
 
@@ -151,7 +151,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-{/* App Info */}
+      {/* App Info */}
       {AppInfo.map((item, i) => (
         <div
           key={i}

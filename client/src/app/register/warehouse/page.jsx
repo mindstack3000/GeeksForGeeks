@@ -141,7 +141,7 @@ function WareHouseRegister() {
   return (
     <>
       <RegisterSelector />
-      <div className="flex h-[85%] w-full flex-col items-start justify-start gap-5  overflow-scroll rounded-lg border border-input p-10">
+      <div className="flex h-[85%] w-full flex-col items-start justify-start gap-5   rounded-lg border border-input p-10">
         <div className="flex w-full flex-col items-start justify-center gap-2">
           <h2 className="w-full scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             Register
