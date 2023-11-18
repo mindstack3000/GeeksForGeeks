@@ -23,7 +23,6 @@ router.post("/register", async (req, res) => {
       security,
       phoneNo,
       email,
-      operatingHours,
       servicesOffered,
     } = req.body;
 
@@ -42,7 +41,6 @@ router.post("/register", async (req, res) => {
       security,
       phoneNo,
       email,
-      operatingHours,
       servicesOffered,
     });
 
@@ -129,7 +127,6 @@ router.put("/update", auth, async (req, res) => {
       security,
       phoneNo,
       email,
-      operatingHours,
       servicesOffered,
     } = req.body;
 
@@ -146,7 +143,6 @@ router.put("/update", auth, async (req, res) => {
       security,
       phoneNo,
       email,
-      operatingHours,
       servicesOffered,
     });
 
@@ -184,38 +180,20 @@ router.delete("/delete:id", auth, async (req, res) => {
   }
 });
 
-/* Warehouse gets all the details of farmers  */
+ /* 
+ * GET /warehouse/getData
+  */
 
-router.get("/waiting-list", auth, async (req, res) => {
+router.get("/getData", auth, async (req, res) => {
   try {
-    /* 
-      !Warehouse owner is logged in 
-    */
-    const warehouseId = req.userId;
+    const user = await Warehouse.findById(req.userId);
+    if (!user) return res.status(400).json({ msg: "User does not exists" });
 
-    const warehouse = await Warehouse.findById(warehouseId);
-
-    if (!warehouse) {
-      return res.status(404).json({ message: "Warehouse not found" });
-    }
-
-    const waitingList = warehouse.waitingList;
-
-    if (waitingList.length === 0) {
-      return res.status(200).json({ message: "No farmers in the waiting list" });
-    }
-
-    // Fetch details of specific parameters of farmers in the waiting list
-    const farmers = await Farmer.find({ _id: { $in: waitingList } })
-      .select("fullName phone email address landSize "); // Add the fields you want to retrieve
-
-    res.status(200).json({ farmers });
+    res.json(user);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ error: error.message });
   }
 });
-
 
 
 module.exports = router;
