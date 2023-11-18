@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Login() {
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-300 p-5">
+    <div className="h-screen flex items-center justify-center bg-white p-5">
       <div className="flex flex-col md:flex-row h-full">
         <div className="imgContainer hidden md:block object-cover mb-3 md:mb-0 md:w-1/2">
           <Image src={"/login.jpg"} width={500} height={500} />
