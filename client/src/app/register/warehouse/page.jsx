@@ -1,9 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import InputWithLabel from "@/components/input_with_label";
 import { Button } from "@/components/ui/button";
 import RegisterSelector from "@/components/register_selector";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const typesOfStorage = ["Hot Storage", "Cold Storage"];
 
@@ -33,25 +35,32 @@ function WareHouseRegister() {
     temp_low: "",
     temp_high: "",
     capacity: "",
-    tempType: "",
+    tempType: selectTypeOfStorage,
     certifications: "",
     security: "",
     phoneNo: "",
     email: "",
-    servicesOffered: "",
+    servicesOffered: "false",
     price: "",
-    typeOfCrop: [],
+    typeOfCrop: selectCropTypes,
   });
 
   const handleChange = (e, name) => {
     const { value } = e.target;
     setForm({ ...form, [name]: value });
-    console.log(form);
   };
 
   const handleSubmit = async (e) => {
     console.log("form", form);
   };
+
+  useEffect(() => {
+    setForm({ ...form, typeOfCrop: selectCropTypes });
+  }, [selectCropTypes]);
+
+  useEffect(() => {
+    setForm({ ...form, tempType: selectTypeOfStorage });
+  }, [selectTypeOfStorage]);
 
   return (
     <>
@@ -100,6 +109,39 @@ function WareHouseRegister() {
             type="text"
             onChange={(e) => handleChange(e, "capacity")}
           />
+          <InputWithLabel
+            label="Certifications"
+            type="text"
+            onChange={(e) => handleChange(e, "certifications")}
+          />
+          <InputWithLabel
+            label="Security"
+            type="text"
+            onChange={(e) => handleChange(e, "security")}
+          />
+
+          <div className="flex w-full flex-col items-start justify-start gap-5 sm:flex-row">
+            <label className="w-1/5  whitespace-nowrap text-lg font-normal tracking-tight">
+              Services Offered
+            </label>
+            <div className="flex w-4/5  items-start justify-start gap-3">
+              <RadioGroup
+                defaultValue="false"
+                onValueChange={(value) => {
+                  setForm({ ...form, servicesOffered: value });
+                }}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="true" id="r1" />
+                  <Label htmlFor="r1">True</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="false" id="r2" />
+                  <Label htmlFor="r2">False</Label>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
 
           <div className="flex w-full flex-col items-start justify-start gap-5 sm:flex-row">
             <label className="w-1/5  whitespace-nowrap text-lg font-normal tracking-tight">
@@ -156,6 +198,7 @@ function WareHouseRegister() {
                   variant={
                     selectCropTypes.includes(cropType) ? "secondary" : "outline"
                   }
+                  key={cropType}
                   onClick={() => {
                     if (selectCropTypes.includes(cropType)) {
                       setSelectCropTypes(
