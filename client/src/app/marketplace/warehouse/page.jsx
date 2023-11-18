@@ -5,10 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
+import PopUp from "@/components/popUp";
 import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
   const [storageSpaces, setStorageSpaces] = useState([]);
+ const [isSumbit, setSubmit] = useState(false);
+  const [form,setForm ] = useState({
+    quantity: "",
+    duration: "",
+  })
+  
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -20,20 +28,6 @@ function WarehouseMarketplace() {
       },
     }).then(res => res.json())
     .then(data => {
-      data.map((d) => {
-        d.owner = d.name;
-        d.location = d.location;
-        d.availableCapacity = d.facility.capacity;
-        d.price = d.price;
-        d.tempType = d.facility.tempType;
-        d.certification = d.certifications;
-        d.security = d.security;
-        d.phoneNo = d.phoneNo;
-        d.email = d.email;
-        d.temp_low = d.facility.temperature.low;
-        d.temp_high = d.facility.temperature.high;
-      
-      })
       setStorageSpaces(data)
     })
       
@@ -87,10 +81,36 @@ function WarehouseMarketplace() {
     setFilteredStorageSpaces(filteredStorageSpaces);
   }, [search, tempType, temp, capacity,storageSpaces]);
 
+
+  const handleSumbit = async(e) => {
+    try{
+    e.preventDefault();
+    // const response = await fetch("http://localhost:5000/transaction/farmer-purchase",{
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer " + user?.token,
+    //   },
+    //   body: JSON.stringify({
+    //     warehouseId : e.target.id,
+    //     crop : "rice",
+
+    //   })
+    // });
+    // const data = await response.json();
+
+
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <>
       <Navbar />
       <section>
+        {isSumbit ? <PopUp onClose={() => setSubmit(false)} /> : null}
+        {/* < PopUp onClose={() => setSubmit(false)} /> */}
         <h1 className="mt-10 scroll-m-20 border-b pb-2 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Warehouse Marketplace
         </h1>
@@ -183,7 +203,7 @@ function WarehouseMarketplace() {
         {
           // Map storageSpaces to WarehouseCard components
           filteredStorageSpaces.map((storageSpace) => (
-            <WarehouseCard key={storageSpace.owner} warehouse={storageSpace} />
+            <WarehouseCard key={storageSpace.owner} warehouse={storageSpace} onClick={handleSumbit}/>
           ))
         }
       </section>

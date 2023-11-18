@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/homePage/header.jsx";
 import { Footer } from "../components/ui/footer";
 
+
 export default function Home() {
   const Features = [
     {

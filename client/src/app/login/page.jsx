@@ -94,7 +94,9 @@ export default function Login() {
               <p className="p-5">Don’t have an Account? Register here.</p>
               <div className="flex flex-col items-end justify-end p-5">
                 <span className="p-2">
-                  <Button>Register</Button>
+                  <Button
+                    onClick={() => router.push(`/register/${loginType.toLowerCase()}`)}
+                  >Register</Button>
                 </span>
               </div>
             </div>
