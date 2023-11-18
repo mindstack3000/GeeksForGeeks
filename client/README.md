@@ -1,6 +1,6 @@
-# Smart Management of Food Storage
+# FreshFlow
 
-Welcome to the Smart Management of Food Storage platform! This web application is designed to streamline the interaction between warehouse owners, farmers, and customers, fostering a sustainable and efficient food supply chain. Whether you're a warehouse owner looking to optimize storage space, a farmer seeking reliable storage solutions, or a customer eager to buy fresh produce directly from local farmers, this platform has got you covered.
+Welcome to FreshFlow! This web application is designed to streamline the interaction between warehouse owners, farmers, and customers, fostering a sustainable and efficient food supply chain. Whether you're a warehouse owner looking to optimize storage space, a farmer seeking reliable storage solutions, or a customer eager to buy fresh produce directly from local farmers, this platform has got you covered.
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
@@ -13,7 +13,7 @@ Welcome to the Smart Management of Food Storage platform! This web application i
 
 ## Getting Started
 
-To get started with the Smart Management platform, follow these simple steps:
+To get started with our FreshFlow platform, follow these simple steps:
 
 1. **Sign Up or Log In:**
    - Warehouse owners, farmers, and customers can sign up for a new account or log in with their existing credentials.
@@ -78,6 +78,6 @@ To get started with the Smart Management platform, follow these simple steps:
 
 ## Support and Feedback
 
-Have questions, feedback, or need assistance? Contact our support team at [support@smartmanagement.com](mailto:support@smartmanagement.com).
+Have questions, feedback, or need assistance? Contact our support team at [aniruddhagawali05@gmail.com](mailto:aniruddhagawali05@gmail.com).
 
-We hope you enjoy using the Smart Management of Food Storage platform! Together, let's build a more sustainable and efficient food ecosystem.
+We hope you enjoy using FreshFlow! Together, let's build a more sustainable and efficient food ecosystem.
