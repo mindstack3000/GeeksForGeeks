@@ -8,6 +8,26 @@ import React, { useState, useEffect } from "react";
 import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/warehouse/getData",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const storageSpaces = [
     {
       owner: "John Doe",
