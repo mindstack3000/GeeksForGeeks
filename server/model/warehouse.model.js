@@ -61,10 +61,10 @@ const warehouseSchema = new mongoose.Schema({
         required: true,
     },
     security:{
-        type: [String],
+        type: String,
         required: true,
     },
-    phone:{
+    phoneNo:{
         type: Number,
         required: true,
     },
@@ -72,14 +72,14 @@ const warehouseSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    otp:{
-        type: Number,
-        required: false,    
-    },
     oeratingHours:{
         type: String,
         enum: hours,
         required: true,
+    },
+    otp:{
+        type: Number,
+        required: false,    
     },
 })
 
