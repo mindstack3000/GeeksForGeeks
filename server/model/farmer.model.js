@@ -1,22 +1,60 @@
-const mongoose = require('mongoose');
-const client = require('../config/connect');
+const mongoose = require("mongoose");
+const client = require("../config/connect");
 
-const accountSchema = new mongoose.Schema({
-  name: {
+const cropTypes = [
+  "Wheat",
+  "Rice",
+  "Corn",
+  "Barley",
+  "Soybeans",
+  "Cotton",
+  "Potatoes",
+  "Tomatoes",
+  "Fruits",
+  "Vegetables",
+  "Other",
+];
+
+const farmerSchema = new mongoose.Schema({
+  adharNo: {
     type: String,
     required: true,
   },
-  type: {
+  fullName: {
     type: String,
-    enum: ['cash', 'bank'],
     required: true,
   },
-  balance: {
+  phoneNo: {
     type: Number,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  landSize: {
+    type: Number,
+    required: true,
+  },
+  typeOfCrop: {
+    type: String,
+    enum: cropTypes,
     required: true,
   },
 });
 
-const Account = client.model('Account', accountSchema);
+const Farmer = client.model("Farmer", accountSchema);
 
 module.exports = Account;
