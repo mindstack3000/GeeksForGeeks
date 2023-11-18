@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import InputWithLabel from "@/components/input_with_label";
-import { Button } from "@/components/ui/button";
-import RegisterSelector from "@/components/register_selector";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import InputWithLabel from "../../../components/input_with_label";
+import { Button } from "../../../components/ui/button";
+import RegisterSelector from "../../../components/register_selector";
+import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
+import { Label } from "../../../components/ui/label";
 
 const typesOfStorage = ["Hot Storage", "Cold Storage"];
 
