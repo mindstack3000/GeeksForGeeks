@@ -5,7 +5,7 @@ import Link from "next/link";
 function Header() {
   return (
     <div className="flex h-24 w-full items-center justify-between bg-primary ">
-      <div>
+      <div className="mx-3">
         <Button>FreshFlow</Button>
       </div>
       <div className="mx-5 flex justify-evenly">
