@@ -68,9 +68,21 @@ const warehouseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  waitingList : {
+    type : [String],
+    require : false,
+  },
+  price : {
+    type : Number,
+    require : true
+  },
   otp: {
     type: Number,
     required: false,
+  },
+  typeOfCrop: {
+    type: [String],
+    required: true,
   },
 });
 

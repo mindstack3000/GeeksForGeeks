@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const Warehouse = require("../model/warehouse.model");
+const Farmer = require("../model/farmer.model")
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
 
@@ -182,5 +183,39 @@ router.delete("/delete:id", auth, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+/* Warehouse gets all the details of farmers  */
+
+router.get("/waiting-list", auth, async (req, res) => {
+  try {
+    /* 
+      !Warehouse owner is logged in 
+    */
+    const warehouseId = req.userId;
+
+    const warehouse = await Warehouse.findById(warehouseId);
+
+    if (!warehouse) {
+      return res.status(404).json({ message: "Warehouse not found" });
+    }
+
+    const waitingList = warehouse.waitingList;
+
+    if (waitingList.length === 0) {
+      return res.status(200).json({ message: "No farmers in the waiting list" });
+    }
+
+    // Fetch details of specific parameters of farmers in the waiting list
+    const farmers = await Farmer.find({ _id: { $in: waitingList } })
+      .select("fullName phone email address landSize "); // Add the fields you want to retrieve
+
+    res.status(200).json({ farmers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+
 
 module.exports = router;
