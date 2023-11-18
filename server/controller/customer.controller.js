@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const Customer = require("../model/customer.model");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
+const { encrypt, decrypt } = require("../encryption");
 
 /*
  * @route POST /Customer/register
@@ -17,9 +18,11 @@ router.post("/register", async (req, res) => {
     const user = await Customer.findOne({ username });
     if (user) return res.status(400).json({ msg: "Username already exists" });
 
+    encryptedFullName = encrypt(fullName);
+
     // Create a new user
     const newUser = new Customer({
-      fullName,
+      encryptedFullName,
       email,
       username,
       password,
@@ -101,12 +104,14 @@ router.put("/update", auth, async (req, res) => {
 
     // Check if the user already exists
     const existingUser = await Customer.findById(req.userId);
+
+    encryptedFullName = encrypt(fullName);
     
     // Update the user fields
     await Customer.updateOne(
       { _id: req.userId},
       {
-        fullName,
+        encryptedFullName,
         email,
         username,
       }

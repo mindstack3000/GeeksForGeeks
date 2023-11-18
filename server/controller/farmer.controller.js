@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const Farmer = require("../model/farmer.model");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
+const { encrypt, decrypt } = require("../encryption");
+const { enc } = require("crypto-js");
 
 /*
  * @route POST /farmer/register
@@ -27,17 +29,24 @@ router.post("/register", async (req, res) => {
     const user = await Farmer.findOne({ username });
     if (user) return res.status(400).json({ msg: "Username already exists" });
 
+    encryptedAdharNo = encrypt(adharNo);
+    encryptedFullName = encrypt(fullName);
+    encryptedPhoneNo = encrypt(phoneNo);
+    encryptedAddress = encrypt(address);
+    encryptedLandSize = encrypt(landSize);
+    encryptedTypeOfCrop = encrypt(typeOfCrop);
+
     // Create a new user
     const newUser = new Farmer({
-      adharNo,
-      fullName,
-      phoneNo,
+      encryptedAdharNo,
+      encryptedFullName,
+      encryptedPhoneNo,
       email,
-      address,
+      encryptedAddress,
       username,
       password,
-      landSize,
-      typeOfCrop,
+      encryptedLandSize,
+      encryptedTypeOfCrop,
     });
 
     // Hash the password
@@ -125,16 +134,23 @@ router.put("/update", auth, async (req, res) => {
     // Check if the user already exists
     const existingUser = await Farmer.findById(req.userId);
 
+    encryptedAdharNo = encrypt(adharNo);
+    encryptedFullName = encrypt(fullName);
+    encryptedPhoneNo = encrypt(phoneNo);
+    encryptedAddress = encrypt(address);
+    encryptedLandSize = encrypt(landSize);
+    encryptedTypeOfCrop = encrypt(typeOfCrop);
+
     // Update the user fields
     await Farmer.updateOne({ _id: req.userId }, {
-      adharNo,
-      fullName,
-      phoneNo,
+      encryptedAdharNo,
+      encryptedFullName,
+      encryptedPhoneNo,
       email,
-      address,
+      encryptedAddress,
       username,
-      landSize,
-      typeOfCrop,
+      encryptedLandSize,
+      encryptedTypeOfCrop,
     });
 
     // Sign the token

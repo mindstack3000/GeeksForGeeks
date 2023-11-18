@@ -5,7 +5,7 @@ const Warehouse = require("../model/warehouse.model");
 const Farmer = require("../model/farmer.model")
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.middleware");
-
+const { encrypt, decrypt } = require("../encryption");
 
 /*
  * @route POST /warehouse/register
@@ -25,25 +25,38 @@ router.post("/register", async (req, res) => {
       email,
       operatingHours,
       servicesOffered,
+      waitngList,
+      price,
+      typeOfCrop
     } = req.body;
 
     // Check if the user already exists
     const user = await Warehouse.findOne({ username });
     if (user) return res.status(400).json({ msg: "Username already exists" });
 
+    encryptedName = encrypt(name);
+    encryptedPhoneNo = encrypt(phoneNo);
+    encryptedLocation = encrypt(location);
+    encryptedCertifications = encrypt(certifications);
+    encryptedSecurity = encrypt(security);
+    encryptedTypeOfCrop = encrypt(typeOfCrop);
+
     // Create a new user
     const newUser = new Warehouse({
-      name,
+      encryptedName,
       username,
       password,
-      location,
+      encryptedLocation,
       facility,
-      certifications,
-      security,
-      phoneNo,
+      encryptedCertifications,
+      encryptedSecurity,
+      encryptedPhoneNo,
       email,
       operatingHours,
       servicesOffered,
+      waitngList,
+      price,
+      encryptedTypeOfCrop
     });
 
     // Hash the password
@@ -131,23 +144,37 @@ router.put("/update", auth, async (req, res) => {
       email,
       operatingHours,
       servicesOffered,
+      waitngList,
+      price,
+      typeOfCrop
     } = req.body;
 
     // Check if the user already exists
     const existingUser = await Warehouse.findById(req.userId);
 
+    encryptedName = encrypt(name);
+    encryptedPhoneNo = encrypt(phoneNo);
+    encryptedLocation = encrypt(location);
+    encryptedCertifications = encrypt(certifications);
+    encryptedSecurity = encrypt(security);
+    encryptedTypeOfCrop = encrypt(typeOfCrop);
+
     // Update the user fields
     await Warehouse.updateOne({ _id: req.userId },  {
-      name,
+      encryptedName,
       username,
-      location,
+      password,
+      encryptedLocation,
       facility,
-      certifications,
-      security,
-      phoneNo,
+      encryptedCertifications,
+      encryptedSecurity,
+      encryptedPhoneNo,
       email,
       operatingHours,
       servicesOffered,
+      waitngList,
+      price,
+      encryptedTypeOfCrop
     });
 
     // Sign the token
