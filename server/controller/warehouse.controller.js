@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const Warehouse = require("../model/warehouse.model");
+const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth.middleware");
+
 
 /*
  * @route POST /warehouse/register
@@ -114,7 +117,7 @@ router.post("/login", async (req, res) => {
  * @route PUT /warehouse/update
  */
 
-router.put("/update:id", async (req, res) => {
+router.put("/update", auth,  async (req, res) => {
   try {
     const {
       name,
@@ -133,7 +136,7 @@ router.put("/update:id", async (req, res) => {
     const user = await Warehouse.findById({ _id: req.params.id });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
 
-    // Create a new user
+    // Update the user fields
     await Warehouse.updateOne(
       { _id: req.params.id },
       {
@@ -168,13 +171,13 @@ router.put("/update:id", async (req, res) => {
  * @route DELETE /warehouse/delete
  */
 
-router.delete("/delete:id", async (req, res) => {
+router.delete("/delete:id", auth, async (req, res) => {
   try {
     const user = await Warehouse.findOne({ _id: req.params.id });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
 
-    const deletedUser = await Warehouse.findByIdAndDelete(req.params.id);
-    res.json(deletedUser);
+    await Warehouse.findByIdAndDelete(req.params.id);
+    res.json({ msg: "User deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

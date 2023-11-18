@@ -54,7 +54,7 @@ const warehouseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  oeratingHours: {
+  operatingHours: {
     open: {
       type: Number,
       required: true,
