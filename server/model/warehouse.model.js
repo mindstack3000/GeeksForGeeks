@@ -20,23 +20,23 @@ const warehouseSchema = new mongoose.Schema({
   },
   facility: {
     temperature: {
-        low: {
-          type: Number,
-          required: true,
-        },
-        high: {
-          type: Number,
-          required: true,
-        },
-      },
-      capacity: {
+      low: {
         type: Number,
         required: true,
       },
-      tempType: {
-        type: String,
+      high: {
+        type: Number,
         required: true,
       },
+    },
+    capacity: {
+      type: Number,
+      required: true,
+    },
+    tempType: {
+      type: String,
+      required: true,
+    },
   },
   certifications: {
     type: String,
@@ -56,13 +56,13 @@ const warehouseSchema = new mongoose.Schema({
   },
   oeratingHours: {
     open: {
-        type: Number,
-        required: true,
-      },
-      close: {
-        type: Number,
-        required: true,
-      },
+      type: Number,
+      required: true,
+    },
+    close: {
+      type: Number,
+      required: true,
+    },
   },
   servicesOffered: {
     type: String,
@@ -71,7 +71,7 @@ const warehouseSchema = new mongoose.Schema({
   otp: {
     type: Number,
     required: false,
-  }
+  },
 });
 
 const Warehouse = client.model("Warehouse", warehouseSchema);
