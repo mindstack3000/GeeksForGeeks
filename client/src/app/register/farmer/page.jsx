@@ -1,3 +1,4 @@
+import InputWithLabel from "@/components/input_with_label";
 import React from "react";
 
 function FarmerLogin() {
@@ -13,7 +14,9 @@ function FarmerLogin() {
             Register as Farmer
           </p>
         </div>
-        <div></div>
+        <div>
+          <InputWithLabel label="Name" />
+        </div>
       </section>
     </div>
   );
