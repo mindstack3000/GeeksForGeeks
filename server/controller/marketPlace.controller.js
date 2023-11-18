@@ -15,15 +15,33 @@ const auth = require("../middleware/auth.middleware");
 // Farmer purchase warehouse
 
 router.get("/", async (req, res) => {
-    try {
-      const allWarehouses = await Warehouse.find().select("name location facility certifications security phoneNo email servicesOffered  price typeOfCrop ");
-      // Return the shortlisted warehouses
-      res.status(200).json(allWarehouses);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
+  try {
+    const allWarehouses = await Warehouse.find().exec();
+    
+    // Use map to transform the data
+    const transformedWarehouses = allWarehouses.map((item) => ({
+      owner: item.name,
+      location: item.location,
+      availableCapacity: item.facility.capacity,
+      price: item.price,
+      tempType: item.facility.tempType,
+      certifications: item.certifications,
+      security: item.security,
+      phoneNo: item.phoneNo,
+      email: item.email,
+      temp_low: item.facility.temperature.low,
+      temp_high: item.facility.temperature.high,
+      typeOfCrop: item.typeOfCrop,
+    }));
+
+    // Return the transformed warehouses
+    res.status(200).json(transformedWarehouses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
   
 
