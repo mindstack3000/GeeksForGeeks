@@ -23,6 +23,7 @@ router.post("/register", async (req, res) => {
       phoneNo,
       email,
       servicesOffered,
+      price,
     } = req.body;
 
     // Check if the user already exists
@@ -41,6 +42,7 @@ router.post("/register", async (req, res) => {
       phoneNo,
       email,
       servicesOffered,
+      price,
     });
 
     // Hash the password

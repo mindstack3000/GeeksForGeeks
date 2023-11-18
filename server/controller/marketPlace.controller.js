@@ -14,23 +14,11 @@ const auth = require("../middleware/auth.middleware");
 
 // Farmer purchase warehouse
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-      const { crop } = req.body;
-  
-      // Validate that a crop is provided in the request
-      if (!crop) {
-        return res.status(400).json({ error: "Crop name is required." });
-      }
-  
-      // Find warehouses that have the specified crop in the typeOfCrop array
-      const shortlistedWarehouses = await Warehouse.find({
-        typeOfCrop: { $in: [crop] }
-        .select("name location facility certifications security price email servicesOffered operatingHours phoneNo"),
-      });
-  
+      const allWarehouses = await Warehouse.find().select("name location facility certifications security phoneNo email servicesOffered  price typeOfCrop ");
       // Return the shortlisted warehouses
-      res.status(200).json({ shortlistedWarehouses });
+      res.status(200).json(allWarehouses);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
