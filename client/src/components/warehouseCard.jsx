@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 
-const WarehouseCard = ({ warehouse }) => {
+const WarehouseCard = ({ warehouse ,onClick }) => {
   return (
     <div className=" m-5 flex  flex-col items-start justify-center gap-5  rounded-md border border-input p-3">
       <div className=" flex w-full flex-col gap-5  sm:flex-row ">
@@ -28,13 +28,15 @@ const WarehouseCard = ({ warehouse }) => {
             <p>Security: {warehouse.security}</p>
             <p>Phone No.: {warehouse.phoneNo}</p>
             <p>Email: {warehouse.email}</p>
-            <p>Operating Hours: {warehouse.operatingHours}</p>
-            <p>Closing Time: {warehouse.closingTime}</p>
-            <p>Address: {warehouse.address}</p>
+            {warehouse?.typeOfCrop?.map((crop) => (
+              <p>Type of Crop: {crop}</p>
+            ))}
           </div>
         </div>
       </div>
-      <Button>Send Request</Button>
+      <Button
+      onClick={onClick}
+      >Send Request</Button>
     </div>
   );
 };

@@ -99,7 +99,6 @@ function WareHouseRegister() {
       });
       const data = await response.json();
       if (data.token) {
-        alert("Registered Successfully");
         const user = { token: data.token, type: "warehouse" };
         if(localStorage.getItem("user")){
           localStorage.removeItem("user");

@@ -46,7 +46,7 @@ function FarmerRegister() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-
+      console.log(form);
       if (
         form.address === "" ||
         form.adharNo === "" ||

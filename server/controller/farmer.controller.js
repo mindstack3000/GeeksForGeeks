@@ -57,7 +57,7 @@ router.post("/register", async (req, res) => {
     );
 
     if(token){
-      res.status(201).json({ message: "Farmer register successfully", token });
+      res.status(201).json({ message: "Farmer register successfully", token ,id : newUser._id});
     }else{
       res.status(400).json({ message: "Farmer register failed" });
     }
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
       if(token){
-        res.status(201).json({ message: "Farmer login successfully", token });
+        res.status(201).json({ message: "Farmer login successfully", token, id : user._id });
       }
       else{
         res.status(400).json({ message: "Farmer login failed" });

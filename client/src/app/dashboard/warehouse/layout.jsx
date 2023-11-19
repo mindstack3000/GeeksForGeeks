@@ -2,24 +2,32 @@
 
 import SideNav from "@/components/dashboard/sidenav";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function WarehouseDashboard({ children }) {
-  const userAttributes = {
-    Owner: "John Doe",
-    Location: "105, San Francisco, New York, America.",
-    Price: "$100",
-    TempType: "Hot/Cold (0-27)",
-    Certification: "A+",
-    Security: "X",
-    PhoneNo: "+91-9876543210",
-    Email: "johndoe@gmail.com",
-    Address: "home at earth",
-    TypesofGoods: "grains",
-  };
-
+  const [userAttributes, setUserAttributes] = React.useState({});
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const response = fetch(`http://localhost:5000/warehouse/getData`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setUserAttributes(data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+ 
   const path = usePathname();
 
   return (
