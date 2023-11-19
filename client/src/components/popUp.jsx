@@ -4,7 +4,7 @@ import InputWithLabel from "./input_with_label";
 import { useState } from "react";
 import { Button } from "./ui/button";
 
-const PopUp = ({ onClose, submit, setForm,form }) => {
+const PopUp = ({ onClose, submit, setForm, form }) => {
   const [isOpened, setIsOpened] = useState(true);
   const toggle = () => setIsOpened(!isOpened);
   React.useEffect(() => {
@@ -42,6 +42,16 @@ const PopUp = ({ onClose, submit, setForm,form }) => {
             type="number"
             onChange={(e) => {
               setForm({ ...form, duration: e.target.value });
+            }}
+          />
+        </span>
+        <span className="m-4">
+          <InputWithLabel
+            label={"Type of Crop"}
+            type="text"
+            value={form.cropType}
+            onChange={(e) => {
+              setForm({ ...form, cropType: e.target.value });
             }}
           />
         </span>

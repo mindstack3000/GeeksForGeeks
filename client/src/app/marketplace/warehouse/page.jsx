@@ -10,11 +10,6 @@ import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
   const [storageSpaces, setStorageSpaces] = useState([]);
-  const [isSumbit, setSubmit] = useState(false);
-  const [form, setForm] = useState({
-    quantity: "",
-    duration: "",
-  });
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -78,7 +73,14 @@ function WarehouseMarketplace() {
 
     setFilteredStorageSpaces(filteredStorageSpaces);
   }, [search, tempType, temp, capacity, storageSpaces]);
-
+  
+    const [popForm, setPopForm] = useState({
+      quantity: "",
+      duration: "",
+      cropType: "",
+      id: "",
+    });
+  
   const handleSumbit = async (e) => {
     try {
       e.preventDefault();
@@ -89,21 +91,18 @@ function WarehouseMarketplace() {
           "Authorization": "Bearer " + user?.token,
         },
         body: JSON.stringify({
-          warehouseId : e.target.id,
-          crop : "rice",
-
+          warehouseId : popForm.id,
+          crop : popForm.cropType,
+          quantity: popForm.quantity,
+          duration: popForm.duration,
         })
       });
       const data = await response.json();
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
-
-  const [popForm, setPopForm] = useState({
-    quantity: "",
-    duration: "",
-  });
 
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
@@ -120,6 +119,8 @@ function WarehouseMarketplace() {
           setPopForm({
             quantity: "",
             duration: "",
+            cropType: "",
+            id: "",
           });
         }}
         setForm={setPopForm}
@@ -215,9 +216,15 @@ function WarehouseMarketplace() {
           // Map storageSpaces to WarehouseCard components
           filteredStorageSpaces.map((storageSpace) => (
             <WarehouseCard
-              key={storageSpace.owner}
+              key={storageSpace.id}
               warehouse={storageSpace}
-              onClick={()=>setIsPopUpOpen(true)}
+              onClick={()=>{
+                setPopForm({
+                  ...popForm,
+                  id: storageSpace.id,
+                  cropType: storageSpace.typeOfCrop[0],
+                });
+                setIsPopUpOpen(true)}}
             />
           ))
         }

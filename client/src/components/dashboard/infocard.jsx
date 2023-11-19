@@ -3,13 +3,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 
-export default function InfoCard({ attributes, requriedButton }) {
-  const onDeny = (e) => {
-    console.log("deny");
-  };
-  const onAccept = (e) => {
-    console.log("accept");
-  };
+export default function InfoCard({ attributes, requriedButton,onAccept,onDeny }) {
 
   return (
     <section className="w-full rounded-lg border border-input p-5 ">
