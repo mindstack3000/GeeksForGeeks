@@ -1,30 +1,55 @@
-import React from "react";
+"use client";
+import React,{useEffect,useState} from "react";
+
 import InfoCard from "@/components/dashboard/infocard";
 
 function WareHouseDashboardOccupancies() {
-  const farmerData = {
-    farmerName: "John Doe",
-    quantity: 100, // Replace with the actual quantity
-    crop: "Wheat", // Replace with the actual crop
-    duration: 6, // Replace with the actual duration in months
-  };
+  const [userAttributes, setUserAttributes] = useState([]);
+  const [ids, setIds] = useState([]);
 
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const response = fetch(`http://localhost:5000/transaction/warehouse-request/${user.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          status : "accepted",
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setUserAttributes(data.farmerInfo);
+          setIds(data.Ids);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   return (
     <>
       <div
         className={`mt-5 flex w-full  flex-col items-start justify-center gap-5 p-10`}
       >
-        <p>
+        <div>
           <div className="text-lg font-semibold">
             Total Capacity Occupied :{" "}
           </div>
-        </p>
-        <p>
+        </div>
+        <div>
           <div className="text-lg font-semibold">Total Capacity Vacant : </div>
-        </p>
+        </div>
       </div>
       <div className="grid w-full grid-cols-3 flex-wrap justify-center gap-5 p-10">
-        <InfoCard attributes={farmerData} requriedButton={false} />
+        {userAttributes.map((userAttribute, i) => (
+          <InfoCard attributes={userAttribute} requriedButton={false}
+        
+          />
+        ))}
       </div>
     </>
   );

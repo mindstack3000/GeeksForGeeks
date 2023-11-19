@@ -20,7 +20,7 @@ const TransactionScheme = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true,
+    required: false,
   },
   duration : {
     type : Number,

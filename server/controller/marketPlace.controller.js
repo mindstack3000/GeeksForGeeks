@@ -20,6 +20,7 @@ router.get("/", async (req, res) => {
     
     // Use map to transform the data
     const transformedWarehouses = allWarehouses.map((item) => ({
+      id: item._id,
       owner: item.name,
       location: item.location,
       availableCapacity: item.facility.capacity,

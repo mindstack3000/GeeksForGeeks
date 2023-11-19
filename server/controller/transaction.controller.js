@@ -10,7 +10,7 @@ const auth = require("../middleware/auth.middleware");
 /* Farmer purchase warehouse */
 router.post("/farmer-purchase", auth, async (req, res) => {
   try {
-    const { warehouseId, crop, quantity, price, duration } = req.body;
+    const { warehouseId, crop, quantity, duration } = req.body;
     const farmerId = req.userId;
 
     const Transcation = new Transaction({
@@ -18,7 +18,6 @@ router.post("/farmer-purchase", auth, async (req, res) => {
       farmerId,
       crop,
       quantity,
-      price,
       duration,
       status: "pending",
     });
@@ -41,25 +40,31 @@ router.post("/farmer-purchase", auth, async (req, res) => {
  *Warehouse all request info 
  */
 
-router.get("/warehouse-request/:id", auth, async (req, res) => {
+router.post("/warehouse-request/:id", auth, async (req, res) => {
   try {
     const warehouseId = req.params.id;
-    console.log(warehouseId);
+    const { status } = req.body;
     const allTransaction = await Transaction.find({ warehouseId: warehouseId });
     let farmerInfo = [];
+    let Ids = [];
     for (let i = 0; i < allTransaction.length; i++) {
       let farmer = await Farmer.findById(allTransaction[i].farmerId);
-      farmerInfo.push({
-        Name: farmer.fullName,
-        Quantity: allTransaction[i].quantity,
-        Crop: allTransaction[i].crop,
-        Dutration: allTransaction[i].duration,
-        PhoneNo: farmer.phoneNo,
-        Email: farmer.email,
-      });
+
+      if (allTransaction[i].status === status) {
+        farmerInfo.push({
+          // id: allTransaction[i]._id,
+          Name: farmer.fullName,
+          Quantity: allTransaction[i].quantity,
+          Crop: allTransaction[i].crop,
+          Dutration: allTransaction[i].duration,
+          PhoneNo: farmer.phoneNo,
+          Email: farmer.email,
+        });
+        Ids.push(allTransaction[i]._id);
+      }
     }
     if (farmerInfo) {
-      res.status(200).json({ farmerInfo });
+      res.status(200).json({ farmerInfo, Ids });
     } else {
       res.status(400).json({ message: "no request found" });
     }
@@ -72,11 +77,40 @@ router.get("/warehouse-request/:id", auth, async (req, res) => {
  *Warehouse accept request
  */
 
-router.post("/accept-reject", auth, async (req, res) => {
+router.put("/accept", auth, async (req, res) => {
   try {
-    const { transactionId, status } = req.body;
+    const { transactionId } = req.body;
+    const warehouse = await Warehouse.findById(req.userId);
+    const transaction = await Transaction.findById(transactionId);
+    transaction.status = "accepted";
+    if (warehouse.facility.capacity < 0) {
+      res.status(400).json({ message: "no space available" });
+    }
+    if (warehouse.facility.capacity < transaction.quantity) {
+      res.status(400).json({ message: "no space available" });
+    }
+
+    await transaction.save();
+    warehouse.facility.capacity -= transaction.quantity;
+    await warehouse.save();
+    if (transaction) {
+      res.status(200).json({ message: "status updated" });
+    } else {
+      res.status(400).json({ message: "no request found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+/*
+ *Warehouse  decline request
+ */
+
+router.put("/decline", auth, async (req, res) => {
+  try {
+    const { transactionId } = req.body;
     const transaction = await Transaction.findByIdAndUpdate(transactionId, {
-      status: status,
+      status: "rejected",
     });
     if (transaction) {
       res.status(200).json({ message: "status updated" });
@@ -87,9 +121,6 @@ router.post("/accept-reject", auth, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
-
 
 /*
  *Warehouse Occupied Space
@@ -125,7 +156,7 @@ router.get("/farmer-request/:id", auth, async (req, res) => {
       let warehouse = await Warehouse.findById(allTransaction[i].warehouseId);
       warehouseInfo.push({
         warehouseOwner: warehouse.name,
-        address : warehouse.location,
+        address: warehouse.location,
         crop: allTransaction[i].crop,
         quantity: allTransaction[i].quantity,
         duration: allTransaction[i].duration,
