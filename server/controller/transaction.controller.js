@@ -174,4 +174,31 @@ router.get("/farmer-request/:id", auth, async (req, res) => {
   }
 });
 
+
+/*
+  *Farmer  all request
+  */
+  router.get("/farmer-all-request/:id", auth, async (req, res) => {
+    try {
+      const farmerId = req.params.id;
+      const allTransaction = await Transaction.find({ farmerId: farmerId });
+      if(!allTransaction){
+        res.status(400).json({ message: "no request found" });
+      }
+      if (allTransaction) {
+        allTransaction.map(async (transaction) => {
+          const warehouse = await Warehouse.findById(transaction.warehouseId);
+          transaction.warehouseName = warehouse.name;
+          transaction.warehouseAddress = warehouse.location;
+          transaction.warehousePhoneNo = warehouse.phoneNo;
+        });
+        res.status(200).json({ allTransaction });
+      } else {
+        res.status(400).json({ message: "no request found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 module.exports = router;
