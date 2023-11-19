@@ -13,10 +13,10 @@ function LoginSelector({ value, set }) {
       name: "Warehouse",
       apiLink: "",
     },
-    {
-      name: "Customer",
-      apiLink: "",
-    },
+    // {
+    //   name: "Customer",
+    //   apiLink: "",
+    // },
   ];
 
   return (

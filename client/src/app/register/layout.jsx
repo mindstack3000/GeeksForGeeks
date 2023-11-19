@@ -12,7 +12,7 @@ function RegisterLayout({ children }) {
           />
         </section>
 
-        <section className=" h-full w-full overflow-scroll lg:w-1/2">
+        <section className=" h-full w-full  lg:w-1/2">
           {children}
         </section>
       </div>
