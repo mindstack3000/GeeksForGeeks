@@ -45,6 +45,15 @@ const PopUp = ({ onClose, submit, setForm, form }) => {
             }}
           />
         </span>
+        <span className="m-4">
+          <InputWithLabel
+            label={"Type of Crop"}
+            type="text"
+            onChange={(e) => {
+              setForm({ ...form, cropType: e.target.value });
+            }}
+          />
+        </span>
         <div className="m-1 flex justify-end">
           <Button onClick={submit}>Send Request</Button>
         </div>

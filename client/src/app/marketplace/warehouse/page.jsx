@@ -10,12 +10,6 @@ import WarehouseCard from "@/components/warehouseCard";
 
 function WarehouseMarketplace() {
   const [storageSpaces, setStorageSpaces] = useState([]);
-  const [isSumbit, setSubmit] = useState(false);
-  const [form, setForm] = useState({
-    quantity: "",
-    duration: "",
-  });
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -82,18 +76,20 @@ function WarehouseMarketplace() {
   const handleSumbit = async (e) => {
     try {
       e.preventDefault();
-      const response = await fetch("http://localhost:5000/transaction/farmer-purchase",{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + user?.token,
+      const response = await fetch(
+        "http://localhost:5000/transaction/farmer-purchase",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + user?.token,
+          },
+          body: JSON.stringify({
+            warehouseId: e.target.id,
+            crop: "rice",
+          }),
         },
-        body: JSON.stringify({
-          warehouseId : e.target.id,
-          crop : "rice",
-
-        })
-      });
+      );
       const data = await response.json();
     } catch (err) {
       console.log(err);
@@ -103,6 +99,7 @@ function WarehouseMarketplace() {
   const [popForm, setPopForm] = useState({
     quantity: "",
     duration: "",
+    cropType: "",
   });
 
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -113,19 +110,21 @@ function WarehouseMarketplace() {
       <section>
         {/* {isSumbit ? <PopUp onClose={() => setSubmit(false)} /> : null} */}
 
-
-        {isPopUpOpen ? <PopUp 
-        onClose={() =>{
-          setIsPopUpOpen(false);
-          setPopForm({
-            quantity: "",
-            duration: "",
-          });
-        }}
-        setForm={setPopForm}
-        form={popForm}
-        submit={handleSumbit} /> : null}
-
+        {isPopUpOpen ? (
+          <PopUp
+            onClose={() => {
+              setIsPopUpOpen(false);
+              setPopForm({
+                quantity: "",
+                duration: "",
+                cropType: "",
+              });
+            }}
+            setForm={setPopForm}
+            form={popForm}
+            submit={handleSumbit}
+          />
+        ) : null}
 
         <h1 className="mt-10 scroll-m-20 border-b pb-2 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Warehouse Marketplace
@@ -217,7 +216,7 @@ function WarehouseMarketplace() {
             <WarehouseCard
               key={storageSpace.owner}
               warehouse={storageSpace}
-              onClick={()=>setIsPopUpOpen(true)}
+              onClick={() => setIsPopUpOpen(true)}
             />
           ))
         }
