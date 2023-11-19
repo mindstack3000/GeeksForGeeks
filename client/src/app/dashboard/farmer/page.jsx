@@ -7,7 +7,6 @@ import InfoCard from "@/components/dashboard/infocard";
 function FarmerDashboard() {
   const [userAttributes, setUserAttributes] = React.useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
   useEffect(() => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));

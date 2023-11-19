@@ -21,7 +21,7 @@ function WarehouseDashboard({ children }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setUserAttributes(data);
         });
     } catch (err) {
