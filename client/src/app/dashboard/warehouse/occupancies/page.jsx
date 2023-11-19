@@ -32,18 +32,7 @@ function WareHouseDashboardOccupancies() {
   }, []);
   return (
     <>
-      <div
-        className={`mt-5 flex w-full  flex-col items-start justify-center gap-5 p-10`}
-      >
-        <div>
-          <div className="text-lg font-semibold">
-            Total Capacity Occupied :{" "}
-          </div>
-        </div>
-        <div>
-          <div className="text-lg font-semibold">Total Capacity Vacant : </div>
-        </div>
-      </div>
+      
       <div className="grid w-full grid-cols-3 flex-wrap justify-center gap-5 p-10">
         {userAttributes.map((userAttribute, i) => (
           <InfoCard attributes={userAttribute} requriedButton={false}

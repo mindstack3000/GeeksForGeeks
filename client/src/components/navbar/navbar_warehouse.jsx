@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-function Navbar() {
+function WarehouseNavbar() {
   const handleChange = () => {
     localStorage.removeItem("user");
   };
@@ -14,7 +14,7 @@ function Navbar() {
       </div>
       <nav>
         <Button asChild variant="link" className="text-white">
-          <Link href="/dashboard/farmer">Dashboard</Link>
+          <Link href="/dashboard/warehouse/request">Dashboard</Link>
         </Button>
         <Button
           asChild
@@ -29,4 +29,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default WarehouseNavbar;

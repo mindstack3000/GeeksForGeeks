@@ -95,7 +95,7 @@ function FarmerRegister() {
           landSize: "",
           typeOfCrop: [],
         });
-        router.push("/marketplace/warehouse");
+        router.push("/dashboard/farmer");
       } else {
         alert("Some error occured");
       }

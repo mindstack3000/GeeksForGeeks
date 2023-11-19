@@ -3,47 +3,56 @@
 import React, { useState } from "react";
 import InputWithLabel from "@/components/input_with_label";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import LoginSelector from "@/components/login_selector";
 
 export default function Login() {
   const [loginType, setLoginType] = useState("Farmer");
-  const [form ,setForm] = useState({"username" : "" ,"password" : ""});
+  const [form, setForm] = useState({ username: "", password: "" });
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
 
-      if (
-        !form.username || !form.password
-      ) {
+      if (!form.username || !form.password) {
         alert("Please fill all the fields");
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/${loginType.toLowerCase()}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username  : form.username,
-          password : form.password
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/${loginType.toLowerCase()}/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
+        },
+      );
       const data = await response.json();
       if (data.token) {
-        const user  = { token : data.token, type :  loginType.toLowerCase() , id : data.id};
+        const user = {
+          token: data.token,
+          type: loginType.toLowerCase(),
+          id: data.id,
+        };
         if (localStorage.getItem("user")) {
           localStorage.removeItem("user");
         }
         localStorage.setItem("user", JSON.stringify(user));
         setForm({
-          username : "",
-          password : ""
+          username: "",
+          password: "",
         });
-        router.push("/marketplace/warehouse");
+        if (loginType == "Farmer") {
+          router.push("/dashboard/farmer");
+        } else {
+          router.push("/dashboard/warehouse/request");
+        }
       } else {
         alert("Some error occured");
       }
@@ -66,22 +75,30 @@ export default function Login() {
                 LogIn
               </h3>
               <p className="p-5">
-                Login for {loginType} with the data you entered during your registration.
+                Login for {loginType} with the data you entered during your
+                registration.
               </p>
               <div className="p-5">
-                <InputWithLabel label="Username" onChange={(e)=>setForm({...form , username : e.target.value})}
-                value = {form.username}
-                  />
+                <InputWithLabel
+                  label="Username"
+                  onChange={(e) =>
+                    setForm({ ...form, username: e.target.value })
+                  }
+                  value={form.username}
+                />
               </div>
               <div className="p-5">
-                <InputWithLabel label="Password" onChange={(e)=>setForm({...form , password : e.target.value})} value={form.password}/>
+                <InputWithLabel
+                  label="Password"
+                  onChange={(e) =>
+                    setForm({ ...form, password: e.target.value })
+                  }
+                  value={form.password}
+                />
               </div>
               <div className="flex flex-col items-end justify-end p-5">
                 <span className="p-2">
-                  <Button
-                  onClick={handleSubmit}
-
-                  >Login</Button>
+                  <Button onClick={handleSubmit}>Login</Button>
                 </span>
                 <p className="text-sm">
                   <a href="#">Did you forget your password?</a>
@@ -98,8 +115,12 @@ export default function Login() {
               <div className="flex flex-col items-end justify-end p-5">
                 <span className="p-2">
                   <Button
-                    onClick={() => router.push(`/register/${loginType.toLowerCase()}`)}
-                  >Register</Button>
+                    onClick={() =>
+                      router.push(`/register/${loginType.toLowerCase()}`)
+                    }
+                  >
+                    Register
+                  </Button>
                 </span>
               </div>
             </div>

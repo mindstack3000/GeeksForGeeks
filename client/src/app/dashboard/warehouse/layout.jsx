@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import WarehouseNavbar from "@/components/navbar/navbar_warehouse";
 
 function WarehouseDashboard({ children }) {
   const [userAttributes, setUserAttributes] = React.useState({});
@@ -31,6 +32,8 @@ function WarehouseDashboard({ children }) {
   const path = usePathname();
 
   return (
+    <>
+    <WarehouseNavbar/>
     <div className=" flex h-screen w-screen flex-row overflow-hidden">
       <section className="flex h-screen w-1/6 flex-col items-center ">
         <SideNav userAttributes={userAttributes} />
@@ -54,17 +57,18 @@ function WarehouseDashboard({ children }) {
           >
             <Link href="/dashboard/warehouse/occupancies">Occupancies</Link>
           </Button>
-          <Button
+          {/* <Button
             asChild
             className="w-full"
             variant={path == "/dashboard/warehouse/customer" ? "" : "secondary"}
           >
             <Link href="/dashboard/warehouse/customer">Customer</Link>
-          </Button>
+          </Button> */}
         </div>
         <>{children}</>
       </section>
     </div>
+    </>
   );
 }
 
