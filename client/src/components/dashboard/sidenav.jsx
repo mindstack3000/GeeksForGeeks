@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 const SideNav = ({ userAttributes }) => {
+  console.log(userAttributes);
   // Sample user attributes
 
   return (
@@ -20,9 +21,10 @@ const SideNav = ({ userAttributes }) => {
 
       {/* Array of Attributes */}
       <div className="attributes my-10 py-10 text-5xl text-black">
+        {console.log(userAttributes)}
         {Object.keys(userAttributes).map((key) => (
-          <div key={key} className="attribute mb-2 text-lg">
-            <span className="font-bold">{key}:</span> {userAttributes[key]}
+          <div key={key} className="attribute mb-2 text-base">
+            <span className="font-semibold">{key}:</span> {userAttributes[key]}
           </div>
         ))}
       </div>

@@ -179,13 +179,31 @@ router.delete("/delete/:id", auth, async (req, res) => {
  router.get("/getData", auth, async (req, res) => {
   try {
     const user = await Farmer.findById(req.userId);
-    if (!user) return res.status(400).json({ msg: "User does not exists" });
 
-    res.json(user);
+    if (!user) {
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+
+    // Select fields to include in the response (excluding Aadhar number)
+    const modifiedUser = {
+      // _id: user._id,
+      // Add other fields you want to include
+      name: user.fullName,
+      email: user.email,
+      phoneNo: user.phoneNo,
+      address: user.address,
+      landSize: user.landSize,
+
+      // Exclude Aadhar number
+      // Do not include the field if you want to exclude it completely
+    };
+
+    res.json(modifiedUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 
 module.exports = router

@@ -199,6 +199,7 @@ router.get("/farmer-request/:id", auth, async (req, res) => {
           warehouseName: warehouse ? warehouse.name : null,
           warehouseAddress: warehouse ? warehouse.location : null,
           warehousePhoneNo: warehouse ? warehouse.phoneNo : null,
+          warehousePrice  : warehouse ? warehouse.price : null,
           status : transaction.status,
           // Include other transaction fields as needed
         };
